@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0b03418d8fa746028f44f02287708b98" Name="Diagram1">
+        <EntityTypeShape EntityType="WiseTripsModel.Agency" Width="1.5" PointX="3" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WiseTripsModel.Coupon" Width="1.5" PointX="7.625" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="WiseTripsModel.History" Width="1.5" PointX="5.375" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WiseTripsModel.Hotel" Width="1.5" PointX="7.75" PointY="5.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WiseTripsModel.Package" Width="1.5" PointX="5.375" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="WiseTripsModel.Role" Width="1.5" PointX="0.75" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="WiseTripsModel.Token" Width="1.5" PointX="0.625" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="WiseTripsModel.User" Width="1.5" PointX="3" PointY="3.875" IsExpanded="true" />
+        <AssociationConnector Association="WiseTripsModel.FK_Agencies_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="WiseTripsModel.FK_Coupons_Agencies" ManuallyRouted="false" />
+        <AssociationConnector Association="WiseTripsModel.FK_Packages_Agencies" ManuallyRouted="false" />
+        <AssociationConnector Association="WiseTripsModel.FK_Coupons_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="WiseTripsModel.FK_Histories_Coupons" ManuallyRouted="false" />
+        <AssociationConnector Association="WiseTripsModel.FK_Histories_Packages" ManuallyRouted="false" />
+        <AssociationConnector Association="WiseTripsModel.FK_Histories_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="WiseTripsModel.FK_Roles_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="WiseTripsModel.FK_Tokens_Users" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
