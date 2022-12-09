@@ -14,7 +14,7 @@ namespace App.Controllers
         [Route("")]
         public HttpResponseMessage Test()
         {
-            var data = UserService.GetAll();
+            var data = UserService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
     }

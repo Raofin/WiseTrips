@@ -8,14 +8,14 @@ using DAL.Interfaces;
 
 namespace DAL.Repositories
 {
-    class UserRepo : IRepo<User, int, bool>, IAuth
+    class UserRepo : IRepo<User, int, bool>,IAuth
     {
         WiseTripsEntities db = new WiseTripsEntities();
 
         public bool Add(User obj)
         {
             db.Users.Add(obj);
-            return db.SaveChanges() > 0;
+         return db.SaveChanges() > 0;       //save changes means it return numeric value(1,2,3..)
         }
 
         public bool Delete(int id)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
-    public interface IRepo<TClass, TId, TResult>
+    public interface IRepo<TClass, TId, TResult>       //done
     {
         List<TClass> Get();
 
