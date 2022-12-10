@@ -16,8 +16,8 @@ namespace DAL.Interfaces
         TResult Add(TClass obj);
 
         //bool 
-            void Delete(TId id);
-
+            //void Delete(TId id);
+        bool Delete(TId id);
         bool Update(TClass obj);
        // void Update(Coupon data);
     }

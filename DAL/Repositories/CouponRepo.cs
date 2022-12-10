@@ -30,11 +30,10 @@ namespace DAL.Repositories
             return db.SaveChanges() > 0;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             db.Coupons.Remove(db.Coupons.Find(id));
-            //return
-                db.SaveChanges();
+            return db.SaveChanges()>0;
 
 
         }
@@ -62,5 +61,9 @@ namespace DAL.Repositories
             return db.SaveChanges() > 0;
         }
 
+        bool IRepo<Coupon, int, bool>.Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

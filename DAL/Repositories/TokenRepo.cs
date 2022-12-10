@@ -8,7 +8,7 @@ using DAL.Interfaces;
 
 namespace DAL.Repositories
 {
-    class TokenRepo : IRepo<Token, string, Token>
+    public class TokenRepo : IRepo<Token, string, Token>
     {
         WiseTripsEntities db = new WiseTripsEntities();
 
@@ -17,17 +17,13 @@ namespace DAL.Repositories
             db.Tokens.Add(obj);
             return db.SaveChanges() > 0 ? obj : null;
         }
-        public void Delete(string id)
+       
+        public bool Delete(string id)
         {
-
+            var token = Get(id);
+            db.Tokens.Remove(token);
+            return db.SaveChanges() > 0;
         }
-
-        //public bool Delete(string id)
-        //{
-        //    var token = Get(id);
-        //    db.Tokens.Remove(token);
-        //    return db.SaveChanges() > 0;
-        //}
 
         public List<Token> Get()
         {
@@ -45,5 +41,6 @@ namespace DAL.Repositories
             db.Entry(token).CurrentValues.SetValues(obj);
             return db.SaveChanges() > 0;
         }
+       
     }
 }
