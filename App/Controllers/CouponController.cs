@@ -43,7 +43,7 @@ namespace App.Controllers
         }
         [Route("api/coupons/update")]
         [HttpPost]
-        public HttpResponseMessage Update(CouponDto coupon)  //user
+        public HttpResponseMessage Update(CouponDto coupon)  //coupon
         {
 
 
