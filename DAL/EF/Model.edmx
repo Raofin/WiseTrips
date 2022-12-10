@@ -25,17 +25,6 @@
           <Property Name="SponsoredBy" Type="int" />
           <Property Name="ExpireOn" Type="datetime" Nullable="false" />
         </EntityType>
-        <EntityType Name="Histories">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="PackageId" Type="int" Nullable="false" />
-          <Property Name="Date" Type="datetime" />
-          <Property Name="UsedCoupon" Type="int" />
-          <Property Name="Paid" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="Hotels">
           <Key>
             <PropertyRef Name="Id" />
@@ -77,6 +66,19 @@
           <Property Name="ExpireOn" Type="datetime" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Trips">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="PackageId" Type="int" Nullable="false" />
+          <Property Name="HotelId" Type="int" />
+          <Property Name="Persons" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="UsedCoupon" Type="int" />
+          <Property Name="Paid" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Users">
           <Key>
             <PropertyRef Name="Id" />
@@ -88,6 +90,7 @@
           <Property Name="Sex" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Spent" Type="int" Nullable="false" />
           <Property Name="RegisteredOn" Type="datetime" Nullable="false" />
+          <Property Name="AccountStatus" Type="bit" />
         </EntityType>
         <Association Name="FK_Agencies_Users">
           <End Role="Users" Type="Self.Users" Multiplicity="1" />
@@ -127,24 +130,24 @@
         </Association>
         <Association Name="FK_Histories_Coupons">
           <End Role="Coupons" Type="Self.Coupons" Multiplicity="0..1" />
-          <End Role="Histories" Type="Self.Histories" Multiplicity="*" />
+          <End Role="Trips" Type="Self.Trips" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Coupons">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Histories">
+            <Dependent Role="Trips">
               <PropertyRef Name="UsedCoupon" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Histories_Packages">
           <End Role="Packages" Type="Self.Packages" Multiplicity="1" />
-          <End Role="Histories" Type="Self.Histories" Multiplicity="*" />
+          <End Role="Trips" Type="Self.Trips" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Packages">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Histories">
+            <Dependent Role="Trips">
               <PropertyRef Name="PackageId" />
             </Dependent>
           </ReferentialConstraint>
@@ -153,12 +156,12 @@
           <End Role="Users" Type="Self.Users" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Histories" Type="Self.Histories" Multiplicity="*" />
+          <End Role="Trips" Type="Self.Trips" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Users">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Histories">
+            <Dependent Role="Trips">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
@@ -199,14 +202,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Trips_Hotels">
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="0..1" />
+          <End Role="Trips" Type="Self.Trips" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trips">
+              <PropertyRef Name="HotelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WiseTripsModelStoreContainer">
           <EntitySet Name="Agencies" EntityType="Self.Agencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Coupons" EntityType="Self.Coupons" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Histories" EntityType="Self.Histories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Packages" EntityType="Self.Packages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tokens" EntityType="Self.Tokens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trips" EntityType="Self.Trips" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Agencies_Users" Association="Self.FK_Agencies_Users">
             <End Role="Users" EntitySet="Users" />
@@ -222,15 +237,15 @@
           </AssociationSet>
           <AssociationSet Name="FK_Histories_Coupons" Association="Self.FK_Histories_Coupons">
             <End Role="Coupons" EntitySet="Coupons" />
-            <End Role="Histories" EntitySet="Histories" />
+            <End Role="Trips" EntitySet="Trips" />
           </AssociationSet>
           <AssociationSet Name="FK_Histories_Packages" Association="Self.FK_Histories_Packages">
             <End Role="Packages" EntitySet="Packages" />
-            <End Role="Histories" EntitySet="Histories" />
+            <End Role="Trips" EntitySet="Trips" />
           </AssociationSet>
           <AssociationSet Name="FK_Histories_Users" Association="Self.FK_Histories_Users">
             <End Role="Users" EntitySet="Users" />
-            <End Role="Histories" EntitySet="Histories" />
+            <End Role="Trips" EntitySet="Trips" />
           </AssociationSet>
           <AssociationSet Name="FK_Packages_Agencies" Association="Self.FK_Packages_Agencies">
             <End Role="Agencies" EntitySet="Agencies" />
@@ -243,6 +258,10 @@
           <AssociationSet Name="FK_Tokens_Users" Association="Self.FK_Tokens_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Tokens" EntitySet="Tokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trips_Hotels" Association="Self.FK_Trips_Hotels">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Trips" EntitySet="Trips" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -274,21 +293,7 @@
           <Property Name="ExpireOn" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Agency" Relationship="Self.FK_Coupons_Agencies" FromRole="Coupons" ToRole="Agencies" />
           <NavigationProperty Name="User" Relationship="Self.FK_Coupons_Users" FromRole="Coupons" ToRole="Users" />
-          <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Coupons" FromRole="Coupons" ToRole="Histories" />
-        </EntityType>
-        <EntityType Name="History">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="PackageId" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Precision="3" />
-          <Property Name="UsedCoupon" Type="Int32" />
-          <Property Name="Paid" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Coupon" Relationship="Self.FK_Histories_Coupons" FromRole="Histories" ToRole="Coupons" />
-          <NavigationProperty Name="Package" Relationship="Self.FK_Histories_Packages" FromRole="Histories" ToRole="Packages" />
-          <NavigationProperty Name="User" Relationship="Self.FK_Histories_Users" FromRole="Histories" ToRole="Users" />
+          <NavigationProperty Name="Trips" Relationship="Self.FK_Histories_Coupons" FromRole="Coupons" ToRole="Trips" />
         </EntityType>
         <EntityType Name="Hotel">
           <Key>
@@ -299,6 +304,7 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Star" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Trips" Relationship="Self.FK_Trips_Hotels" FromRole="Hotels" ToRole="Trips" />
         </EntityType>
         <EntityType Name="Package">
           <Key>
@@ -312,7 +318,7 @@
           <Property Name="Duration" Type="Int32" Nullable="false" />
           <Property Name="Price" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Agency" Relationship="Self.FK_Packages_Agencies" FromRole="Packages" ToRole="Agencies" />
-          <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Packages" FromRole="Packages" ToRole="Histories" />
+          <NavigationProperty Name="Trips" Relationship="Self.FK_Histories_Packages" FromRole="Packages" ToRole="Trips" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -335,6 +341,23 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_Tokens_Users" FromRole="Tokens" ToRole="Users" />
         </EntityType>
+        <EntityType Name="Trip">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="PackageId" Type="Int32" Nullable="false" />
+          <Property Name="HotelId" Type="Int32" />
+          <Property Name="Persons" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UsedCoupon" Type="Int32" />
+          <Property Name="Paid" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Coupon" Relationship="Self.FK_Histories_Coupons" FromRole="Trips" ToRole="Coupons" />
+          <NavigationProperty Name="Hotel" Relationship="Self.FK_Trips_Hotels" FromRole="Trips" ToRole="Hotels" />
+          <NavigationProperty Name="Package" Relationship="Self.FK_Histories_Packages" FromRole="Trips" ToRole="Packages" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Histories_Users" FromRole="Trips" ToRole="Users" />
+        </EntityType>
         <EntityType Name="User">
           <Key>
             <PropertyRef Name="Id" />
@@ -346,11 +369,12 @@
           <Property Name="Sex" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Spent" Type="Int32" Nullable="false" />
           <Property Name="RegisteredOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="AccountStatus" Type="Boolean" />
           <NavigationProperty Name="Agencies" Relationship="Self.FK_Agencies_Users" FromRole="Users" ToRole="Agencies" />
           <NavigationProperty Name="Coupons" Relationship="Self.FK_Coupons_Users" FromRole="Users" ToRole="Coupons" />
-          <NavigationProperty Name="Histories" Relationship="Self.FK_Histories_Users" FromRole="Users" ToRole="Histories" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Roles_Users" FromRole="Users" ToRole="Roles" />
           <NavigationProperty Name="Tokens" Relationship="Self.FK_Tokens_Users" FromRole="Users" ToRole="Tokens" />
+          <NavigationProperty Name="Trips" Relationship="Self.FK_Histories_Users" FromRole="Users" ToRole="Trips" />
         </EntityType>
         <Association Name="FK_Agencies_Users">
           <End Role="Users" Type="Self.User" Multiplicity="1" />
@@ -402,39 +426,37 @@
         </Association>
         <Association Name="FK_Histories_Coupons">
           <End Role="Coupons" Type="Self.Coupon" Multiplicity="0..1" />
-          <End Role="Histories" Type="Self.History" Multiplicity="*" />
+          <End Role="Trips" Type="Self.Trip" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Coupons">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Histories">
+            <Dependent Role="Trips">
               <PropertyRef Name="UsedCoupon" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Trips_Hotels">
+          <End Role="Hotels" Type="Self.Hotel" Multiplicity="0..1" />
+          <End Role="Trips" Type="Self.Trip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trips">
+              <PropertyRef Name="HotelId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Histories_Packages">
           <End Role="Packages" Type="Self.Package" Multiplicity="1" />
-          <End Role="Histories" Type="Self.History" Multiplicity="*" />
+          <End Role="Trips" Type="Self.Trip" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Packages">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Histories">
+            <Dependent Role="Trips">
               <PropertyRef Name="PackageId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Histories_Users">
-          <End Role="Users" Type="Self.User" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Histories" Type="Self.History" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Histories">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -462,14 +484,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Histories_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Trips" Type="Self.Trip" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Trips">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="WiseTripsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Agencies" EntityType="Self.Agency" />
           <EntitySet Name="Coupons" EntityType="Self.Coupon" />
-          <EntitySet Name="Histories" EntityType="Self.History" />
           <EntitySet Name="Hotels" EntityType="Self.Hotel" />
           <EntitySet Name="Packages" EntityType="Self.Package" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="Tokens" EntityType="Self.Token" />
+          <EntitySet Name="Trips" EntityType="Self.Trip" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_Agencies_Users" Association="Self.FK_Agencies_Users">
             <End Role="Users" EntitySet="Users" />
@@ -489,15 +525,15 @@
           </AssociationSet>
           <AssociationSet Name="FK_Histories_Coupons" Association="Self.FK_Histories_Coupons">
             <End Role="Coupons" EntitySet="Coupons" />
-            <End Role="Histories" EntitySet="Histories" />
+            <End Role="Trips" EntitySet="Trips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Trips_Hotels" Association="Self.FK_Trips_Hotels">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="Trips" EntitySet="Trips" />
           </AssociationSet>
           <AssociationSet Name="FK_Histories_Packages" Association="Self.FK_Histories_Packages">
             <End Role="Packages" EntitySet="Packages" />
-            <End Role="Histories" EntitySet="Histories" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Histories_Users" Association="Self.FK_Histories_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Histories" EntitySet="Histories" />
+            <End Role="Trips" EntitySet="Trips" />
           </AssociationSet>
           <AssociationSet Name="FK_Roles_Users" Association="Self.FK_Roles_Users">
             <End Role="Users" EntitySet="Users" />
@@ -506,6 +542,10 @@
           <AssociationSet Name="FK_Tokens_Users" Association="Self.FK_Tokens_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Tokens" EntitySet="Tokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Histories_Users" Association="Self.FK_Histories_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Trips" EntitySet="Trips" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -533,18 +573,6 @@
                 <ScalarProperty Name="AddedBy" ColumnName="AddedBy" />
                 <ScalarProperty Name="SponsoredBy" ColumnName="SponsoredBy" />
                 <ScalarProperty Name="ExpireOn" ColumnName="ExpireOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Histories">
-            <EntityTypeMapping TypeName="WiseTripsModel.History">
-              <MappingFragment StoreEntitySet="Histories">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="UsedCoupon" ColumnName="UsedCoupon" />
-                <ScalarProperty Name="Paid" ColumnName="Paid" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -593,6 +621,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Trips">
+            <EntityTypeMapping TypeName="WiseTripsModel.Trip">
+              <MappingFragment StoreEntitySet="Trips">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PackageId" ColumnName="PackageId" />
+                <ScalarProperty Name="HotelId" ColumnName="HotelId" />
+                <ScalarProperty Name="Persons" ColumnName="Persons" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="UsedCoupon" ColumnName="UsedCoupon" />
+                <ScalarProperty Name="Paid" ColumnName="Paid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="WiseTripsModel.User">
               <MappingFragment StoreEntitySet="Users">
@@ -603,6 +645,7 @@
                 <ScalarProperty Name="Sex" ColumnName="Sex" />
                 <ScalarProperty Name="Spent" ColumnName="Spent" />
                 <ScalarProperty Name="RegisteredOn" ColumnName="RegisteredOn" />
+                <ScalarProperty Name="AccountStatus" ColumnName="AccountStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

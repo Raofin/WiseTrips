@@ -1,5 +1,6 @@
 ﻿using DAL.EF;
 using DAL.Interfaces;
+using DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,12 +9,11 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class AgencyRepo : Repo, IRepo<Agency, int, Agency>, IAuth
+    public class PackageRepo : Repo, IRepo<Package, int, Package>
     {
-        WiseTripsEntities db=new WiseTripsEntities();
-        public Agency Add(Agency obj)
+        public Package Add(Package obj)
         {
-            db.Agencies.Add(obj);
+            db.Packages.Add(obj);
             if (db.SaveChanges() > 0)
             {
                 return obj;
@@ -22,37 +22,29 @@ namespace DAL.Repositories
             {
                 return null;
             }
-
-
-        }
-
-
-        public User Authenticate(string username, string password)
-        {
-            throw new NotImplementedException();
         }
 
         public bool Delete(int id)
         {
-            var ext = db.Agencies.Find(id);
-            db.Agencies.Remove(ext);
+            var ext = db.Packages.Find(id);
+            db.Packages.Remove(ext);
             return db.SaveChanges() > 0;
         }
 
-        public List<Agency> Get()
+        public List<Package> Get()
         {
-            return db.Agencies.ToList();
+            return db.Packages.ToList();
         }
 
-        public Agency Get(int id)
+        public Package Get(int id)
         {
-            return db.Agencies.Find(id);
+            return db.Packages.Find(id);
         }
 
-        public Agency Update(Agency obj)
+        public Package Update(Package obj)
         {
-            var ext = Get(obj.Id);
-            db.Entry(ext).CurrentValues.SetValues(obj);
+            var dbobj = Get(obj.Id);
+            db.Entry(dbobj).CurrentValues.SetValues(obj);
             if (db.SaveChanges() > 0)
             {
                 return obj;

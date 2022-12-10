@@ -31,9 +31,14 @@ namespace DAL
             return new CouponRepo();
         }
 
-        public static IRepo<Agency, int, bool> AgencyDataAccess()         //For coupon repo
+        public static IRepo<Agency, int, Agency> AgencyDataAccess()         //For coupon repo
         {
             return new AgencyRepo();
+        }
+
+        public static IRepo<Package, int, Package> PackageDataAccess()         //For coupon repo
+        {
+            return new PackageRepo();
         }
 
     }

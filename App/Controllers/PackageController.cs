@@ -9,52 +9,53 @@ using System.Web.Http;
 
 namespace App.Controllers
 {
-    public class AgencyController : ApiController
+    public class PackageController : ApiController
     {
-        [Route("api/agencies")]
+        [Route("api/packages")]
+
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            var data = AgencyService.Get();
+            var data = PackageService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/agencies/{id}")]
+        [Route("api/packages/{id}")]
         [HttpGet]
         public HttpResponseMessage Get(int id)
         {
-            var data = AgencyService.Get(id);
+            var data = PackageService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/agencies/add")]
+        [Route("api/packages/add")]
         [HttpPost]
-        public HttpResponseMessage Add(AgencyDto agency)
+        public HttpResponseMessage Add(PackageDto package)
         {
 
 
-            var data = AgencyService.Add(agency);
+            var data = PackageService.Add(package);
             if (data != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
         }
-        [Route("api/agencies/update/{id}")]
+        [Route("api/packages/update/{id}")]
         [HttpGet]
-        public HttpResponseMessage Update(AgencyDto agency)
+        public HttpResponseMessage Update(PackageDto package)
         {
 
 
-            AgencyService.Update(agency);
+            PackageService.Update(package);
             return Request.CreateResponse(HttpStatusCode.OK);
-           
+
         }
-        [Route("api/agencies/delete/{id}")]
+        [Route("api/packages/delete/{id}")]
         [HttpGet]
         public HttpResponseMessage Delete(int id)
         {
 
 
-            var data = AgencyService.Delete(id);
+            var data = PackageService.Delete(id);
             if (data != false)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "deleted");

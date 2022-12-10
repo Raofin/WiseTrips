@@ -12,22 +12,20 @@ namespace DAL.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Package
+    public partial class Trip
     {
-        public Package()
-        {
-            this.Trips = new HashSet<Trip>();
-        }
-    
         public int Id { get; set; }
-        public string Name { get; set; }
-        public int AgencyId { get; set; }
-        public string Country { get; set; }
-        public string Details { get; set; }
-        public int Duration { get; set; }
-        public int Price { get; set; }
+        public int UserId { get; set; }
+        public int PackageId { get; set; }
+        public Nullable<int> HotelId { get; set; }
+        public int Persons { get; set; }
+        public System.DateTime Date { get; set; }
+        public Nullable<int> UsedCoupon { get; set; }
+        public int Paid { get; set; }
     
-        public virtual Agency Agency { get; set; }
-        public virtual ICollection<Trip> Trips { get; set; }
+        public virtual Coupon Coupon { get; set; }
+        public virtual Hotel Hotel { get; set; }
+        public virtual Package Package { get; set; }
+        public virtual User User { get; set; }
     }
 }

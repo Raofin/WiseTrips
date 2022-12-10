@@ -13,7 +13,7 @@ namespace BLL.Services
 {
     public class AgencyService
     {
-        public static bool Add(AgencyDto data)
+        public static AgencyDto Add(AgencyDto data)
         {
             var config = new MapperConfiguration(c => {
                 c.CreateMap<AgencyDto, Agency>();
@@ -22,8 +22,14 @@ namespace BLL.Services
             var mapper = new Mapper(config);
             var dbobj = mapper.Map<Agency>(data);
             var ret = DataAccessFactory.AgencyDataAccess().Add(dbobj);
-            
-            return ret;
+            if (ret != null)
+            {
+                return mapper.Map<AgencyDto>(data);
+            }
+            else
+            {
+                return null;
+            }
 
 
         }

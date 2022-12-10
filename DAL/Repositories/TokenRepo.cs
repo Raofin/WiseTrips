@@ -35,11 +35,18 @@ namespace DAL.Repositories
             return db.Tokens.FirstOrDefault(t => t.AuthToken.Equals(id));
         }
 
-        public bool Update(Token obj)
+        public Token Update(Token obj)
         {
             var token = Get(obj.AuthToken);
             db.Entry(token).CurrentValues.SetValues(obj);
-            return db.SaveChanges() > 0;
+            if (db.SaveChanges() > 0)
+            {
+                return obj;
+            }
+            else
+            {
+                return null;
+            }
         }
        
     }

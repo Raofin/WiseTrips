@@ -14,10 +14,17 @@ namespace DAL.EF
     
     public partial class Hotel
     {
+        public Hotel()
+        {
+            this.Trips = new HashSet<Trip>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Star { get; set; }
         public int Price { get; set; }
+    
+        public virtual ICollection<Trip> Trips { get; set; }
     }
 }

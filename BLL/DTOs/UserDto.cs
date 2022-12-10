@@ -14,6 +14,7 @@ namespace BLL.DTOs
         public string Password { get; set; }
         public string Sex { get; set; }
         public int Spent { get; set; }
-        public DateTime RegisteredOn { get; set; }
+        public System.DateTime RegisteredOn { get; set; }
+        public bool? AccountStatus { get; set; }
     }
 }

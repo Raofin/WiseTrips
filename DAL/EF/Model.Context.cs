@@ -27,11 +27,11 @@ namespace DAL.EF
     
         public DbSet<Agency> Agencies { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
-        public DbSet<History> Histories { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
         public DbSet<Package> Packages { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Token> Tokens { get; set; }
+        public DbSet<Trip> Trips { get; set; }
         public DbSet<User> Users { get; set; }
     }
 }

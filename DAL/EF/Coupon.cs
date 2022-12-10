@@ -16,7 +16,7 @@ namespace DAL.EF
     {
         public Coupon()
         {
-            this.Histories = new HashSet<History>();
+            this.Trips = new HashSet<Trip>();
         }
     
         public int Id { get; set; }
@@ -28,6 +28,6 @@ namespace DAL.EF
     
         public virtual Agency Agency { get; set; }
         public virtual User User { get; set; }
-        public virtual ICollection<History> Histories { get; set; }
+        public virtual ICollection<Trip> Trips { get; set; }
     }
 }

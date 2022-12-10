@@ -18,9 +18,9 @@ namespace DAL.EF
         {
             this.Agencies = new HashSet<Agency>();
             this.Coupons = new HashSet<Coupon>();
-            this.Histories = new HashSet<History>();
             this.Roles = new HashSet<Role>();
             this.Tokens = new HashSet<Token>();
+            this.Trips = new HashSet<Trip>();
         }
     
         public int Id { get; set; }
@@ -30,11 +30,12 @@ namespace DAL.EF
         public string Sex { get; set; }
         public int Spent { get; set; }
         public System.DateTime RegisteredOn { get; set; }
+        public Nullable<bool> AccountStatus { get; set; }
     
         public virtual ICollection<Agency> Agencies { get; set; }
         public virtual ICollection<Coupon> Coupons { get; set; }
-        public virtual ICollection<History> Histories { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
         public virtual ICollection<Token> Tokens { get; set; }
+        public virtual ICollection<Trip> Trips { get; set; }
     }
 }
