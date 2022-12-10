@@ -10,19 +10,27 @@ namespace DAL.Repositories
 {
     class UserRepo : IRepo<User, int, bool>,IAuth
     {
-        WiseTripsEntities db = new WiseTripsEntities();
-
-        public bool Add(User obj)
+       // WiseTripsEntities db = new WiseTripsEntities();      //old
+        WiseTripsEntities db;
+        internal UserRepo()
         {
-            db.Users.Add(obj);
-         return db.SaveChanges() > 0;       //save changes means it return numeric value(1,2,3..)
+            db = new WiseTripsEntities();
         }
 
-        public bool Delete(int id)
+
+
+        public bool Add(User obj)      //bool ,User
+        {
+            db.Users.Add(obj);
+         return db.SaveChanges() >0;       //save changes means it return numeric value(1,2,3..)
+        }
+
+        public void Delete(int id)
         {
             var ext = db.Users.Find(id);
             db.Users.Remove(ext);
-            return db.SaveChanges() > 0;
+            //return
+                db.SaveChanges();
         }
 
         public List<User> Get()

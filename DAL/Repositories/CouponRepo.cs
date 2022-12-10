@@ -30,10 +30,11 @@ namespace DAL.Repositories
             return db.SaveChanges() > 0;
         }
 
-        public bool Delete(int id)
+        public void Delete(int id)
         {
             db.Coupons.Remove(db.Coupons.Find(id));
-            return db.SaveChanges() > 0;
+            //return
+                db.SaveChanges();
 
 
         }
@@ -48,11 +49,18 @@ namespace DAL.Repositories
             return db.Coupons.Find(id);
         }
 
+        //public bool Update(Coupon obj)
+        //{
+        //    var ext = db.Coupons.Find(obj.Id);
+        //    db.Entry(ext).CurrentValues.SetValues(obj);
+        //    return db.SaveChanges() > 0;
+        //}
         public bool Update(Coupon obj)
         {
-            var ext = db.Coupons.Find(obj.Id);
+            var ext = Get(obj.Id);
             db.Entry(ext).CurrentValues.SetValues(obj);
             return db.SaveChanges() > 0;
         }
+
     }
 }

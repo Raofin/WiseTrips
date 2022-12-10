@@ -33,13 +33,27 @@ namespace App.Controllers
 
 
             var data = CouponService.Add(coupon);
-            if (data != null)
+            if (data)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
 
 
+        }
+        [Route("api/coupons/update")]
+        [HttpPost]
+        public HttpResponseMessage Update(CouponDto coupon)  //user
+        {
+
+
+            CouponService.Update(coupon);      //user
+                                             //    if (data)
+                                             //    {
+            return Request.CreateResponse(HttpStatusCode.OK);
+            //    }
+            //    return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            //}
         }
     }
 }

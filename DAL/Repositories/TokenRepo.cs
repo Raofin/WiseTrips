@@ -17,13 +17,17 @@ namespace DAL.Repositories
             db.Tokens.Add(obj);
             return db.SaveChanges() > 0 ? obj : null;
         }
-
-        public bool Delete(string id)
+        public void Delete(string id)
         {
-            var token = Get(id);
-            db.Tokens.Remove(token);
-            return db.SaveChanges() > 0;
+
         }
+
+        //public bool Delete(string id)
+        //{
+        //    var token = Get(id);
+        //    db.Tokens.Remove(token);
+        //    return db.SaveChanges() > 0;
+        //}
 
         public List<Token> Get()
         {

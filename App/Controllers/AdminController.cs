@@ -27,16 +27,48 @@ namespace App.Controllers
         }
         [Route("api/users/add")]
         [HttpPost]
-        public HttpResponseMessage Add(UserDto user)
+        public HttpResponseMessage Add(UserDto user)  //user
         {
 
 
-            var data = UserService.Add(user);
-            if (data != null)
+            var data = UserService.Add(user);      //user
+            if (data)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
+        }
+
+        [Route("api/users/delete/{ID}")]      
+        [HttpDelete]
+        public HttpResponseMessage Delete(int ID)  //user
+        {
+
+
+            UserService.Delete(ID);      //user
+                                         // if (data)
+                                         // {
+            return Request.CreateResponse(HttpStatusCode.OK);
+            //   }
+            //    return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            //}
+
+
+        }
+        [Route("api/users/update")]         //user update done
+        [HttpPost]
+        public HttpResponseMessage Update(UserDto user)  //user
+        {
+
+
+             UserService.Update(user);      //user
+                                                      //    if (data)
+                                                      //    {
+                                                              return Request.CreateResponse(HttpStatusCode.OK);
+                                                      //    }
+                                                      //    return Request.CreateResponse(HttpStatusCode.InternalServerError);
+                                                      //}
+
         }
     }
 }

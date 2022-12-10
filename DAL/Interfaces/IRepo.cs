@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL.EF;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,10 @@ namespace DAL.Interfaces
 
         TResult Add(TClass obj);
 
-        bool Delete(TId id);
+        //bool 
+            void Delete(TId id);
 
         bool Update(TClass obj);
+       // void Update(Coupon data);
     }
 }

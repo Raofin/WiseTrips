@@ -19,7 +19,7 @@ namespace BLL.Services
          //      cfg.CreateMap<UserDto, User>();
         //    }));
                             
-        public static List<UserDto> Get()              //chnage3
+        public static List<UserDto> Get()              //chnage3      //user     //User
         {
             
             var dbdata = DataAccessFactory.UserDataAccess().Get();
@@ -34,8 +34,8 @@ namespace BLL.Services
             var data = DataAccessFactory.UserDataAccess().Get(id);           
             var config = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>());
             var mapper = new Mapper(config);
-            var user = mapper.Map<UserDto>(data);  //list convert user to list
-            return user;
+            var User = mapper.Map<UserDto>(data);  //list convert user to list
+            return User;
 
 
 
@@ -54,15 +54,36 @@ namespace BLL.Services
                 cfg.CreateMap<User, UserDto>();
             });
             var mapper = new Mapper(config);
-            var user = mapper.Map<User>(userDto);     //list convert as user
-            var result = DataAccessFactory.UserDataAccess().Add(user);
-            var redata = mapper.Map<UserDto>(result);
+            var data = mapper.Map<User>(userDto);     //list convert as user
+            var result = DataAccessFactory.UserDataAccess().Add(data);
+          //  var redata = mapper.Map<UserDto>(result);
             return result;
         }
+        public static void Delete(int ID)
+        {
+             DataAccessFactory.UserDataAccess().Delete(ID);
+            //return result;
+        }
+        public static void Update(UserDto user)
+        {
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<UserDto, User>();
+                cfg.CreateMap<User, UserDto>();
+            });
+            var mapper = new Mapper(config);
+            var data = mapper.Map<User>(user);
+            DataAccessFactory.UserDataAccess().Update(data);
+            //return result;
 
+        }
         public static object GetAll()
         {
             throw new NotImplementedException();
         }
+
+        //public static void Update(CouponDto coupon)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

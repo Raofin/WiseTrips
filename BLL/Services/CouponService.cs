@@ -31,7 +31,7 @@ namespace BLL.Services
 
 
         }
-        public static CouponDto Add(CouponDto dto)
+        public static bool Add(CouponDto dto)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -43,10 +43,21 @@ namespace BLL.Services
             var mapper = new Mapper(config);
             var data = mapper.Map<Coupon>(dto);               //List convert data by list
             var result = DataAccessFactory.CouponDataAccess().Add(data);
-            var redata = mapper.Map<CouponDto>(result);
-            return redata;
+            //var redata = mapper.Map<CouponDto>(result);
+            return result;
         }
+        public static void Update(CouponDto coupon)       //coupon
+        {
+            var config = new MapperConfiguration(cfg => {
+                cfg.CreateMap<CouponDto, Coupon>();
+                cfg.CreateMap<Coupon, CouponDto>();
+            });
+            var mapper = new Mapper(config);
+            var data = mapper.Map<Coupon>(coupon);
+            DataAccessFactory.CouponDataAccess().Update(data);
+            //return result;
 
+        }
 
 
     }
