@@ -11,21 +11,21 @@ namespace App.Controllers
 {
     public class AdminController : ApiController
     {
-        [Route("api/users")]
+        [Route("api/admin/users")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
             var data = UserService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/users/{id}")]
+        [Route("api/admin/users/{id}")]
         [HttpGet]
         public HttpResponseMessage Get(int id)
         {
             var data = UserService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/users/add")]
+        [Route("api/admin/users/add")]
         [HttpPost]
         public HttpResponseMessage Add(UserDto user)  //user
         {
@@ -39,7 +39,7 @@ namespace App.Controllers
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
         }
 
-        [Route("api/users/delete/{ID}")]      
+        [Route("api/admin/users/delete/{ID}")]
         [HttpDelete]
         public HttpResponseMessage Delete(int ID)  //user
         {
@@ -55,19 +55,19 @@ namespace App.Controllers
 
 
         }
-        [Route("api/users/update")]         //user update done
+        [Route("api/admin/users/update")]         //user update done
         [HttpPost]
         public HttpResponseMessage Update(UserDto user)  //user
         {
 
 
-             UserService.Update(user);      //user
-                                                      //    if (data)
-                                                      //    {
-                                                              return Request.CreateResponse(HttpStatusCode.OK);
-                                                      //    }
-                                                      //    return Request.CreateResponse(HttpStatusCode.InternalServerError);
-                                                      //}
+            UserService.Update(user);      //user
+                                           //    if (data)
+                                           //    {
+            return Request.CreateResponse(HttpStatusCode.OK);
+            //    }
+            //    return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            //}
 
         }
     }

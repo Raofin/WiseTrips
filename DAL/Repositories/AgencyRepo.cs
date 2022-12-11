@@ -8,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class AgencyRepo : Repo, IRepo<Agency, int, Agency>, IAuth
+    public class AgencyRepo : Repo, IRepo<Agency, int, Agency>
     {
-        WiseTripsEntities db=new WiseTripsEntities();
         public Agency Add(Agency obj)
         {
             db.Agencies.Add(obj);
@@ -24,12 +23,6 @@ namespace DAL.Repositories
             }
 
 
-        }
-
-
-        public User Authenticate(string username, string password)
-        {
-            throw new NotImplementedException();
         }
 
         public bool Delete(int id)

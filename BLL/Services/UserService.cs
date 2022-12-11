@@ -36,16 +36,24 @@ namespace BLL.Services
             var mapper = new Mapper(config);
             var User = mapper.Map<UserDto>(data);  //list convert user to list
             return User;
-
-
-
         }
 
-       // public static UserDto Get(string username)
+
+
+        public static UserDto Get(string username)       //chnage2
+        {
+            var data = DataAccessFactory.UserDataAccess().Get().FirstOrDefault(u => u.Username == username);
+            var config = new MapperConfiguration(cfg => cfg.CreateMap<User, UserDto>());
+            var mapper = new Mapper(config);
+            var user = mapper.Map<UserDto>(data);  //list convert user to list
+            return user;
+        }
+
+        // public static UserDto Get(string username)
         //{
-           // var data = DataAccessFactory.UserDataAccess().Get().FirstOrDefault(u => u.Username == username);
-         //   return data == null ? null : mapper.Map<UserDto>(data);
-      //  }
+        // var data = DataAccessFactory.UserDataAccess().Get().FirstOrDefault(u => u.Username == username);
+        //   return data == null ? null : mapper.Map<UserDto>(data);
+        //  }
 
         public static bool Add(UserDto userDto)            //chnage1    (donorservice)
         {
@@ -55,10 +63,15 @@ namespace BLL.Services
             });
             var mapper = new Mapper(config);
             var data = mapper.Map<User>(userDto);     //list convert as user
-            var result = DataAccessFactory.UserDataAccess().Add(data);
-          //  var redata = mapper.Map<UserDto>(result);
-            return result;
+
+            if (Get(data.Username) != null)
+            {
+                return false; 
+            }
+
+            return DataAccessFactory.UserDataAccess().Add(data);
         }
+
         public static void Delete(int ID)
         {
              DataAccessFactory.UserDataAccess().Delete(ID);

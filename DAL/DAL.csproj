@@ -93,9 +93,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\AgencyRepo.cs" />
     <Compile Include="Repositories\CouponRepo.cs" />
+    <Compile Include="Repositories\HotelRepo.cs" />
     <Compile Include="Repositories\PackageRepo.cs" />
     <Compile Include="Repositories\Repo.cs" />
     <Compile Include="Repositories\TokenRepo.cs" />
+    <Compile Include="Repositories\TripRepo.cs" />
     <Compile Include="Repositories\UserRepo.cs" />
   </ItemGroup>
   <ItemGroup />

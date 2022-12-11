@@ -17,18 +17,11 @@ namespace App.Controllers
         {
             var data = AuthService.Authenticate(loginDto.Username, loginDto.Password);
 
-            return data != null
-                ? Request.CreateResponse(HttpStatusCode.OK, data)
-                : Request.CreateResponse(HttpStatusCode.NotFound);
-        }
-
-        [HttpPost]
-        [Route("api/register")]
-        public HttpResponseMessage Register(UserDto userDto)
-        {
-            return UserService.Add(userDto)
-                ? Request.CreateResponse(HttpStatusCode.OK, "Registration Successful")
-                : Request.CreateResponse(HttpStatusCode.PreconditionFailed);
+            if (data != null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, data);
+            }
+            return Request.CreateResponse(HttpStatusCode.NotFound);
         }
     }
 }

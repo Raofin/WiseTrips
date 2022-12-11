@@ -41,5 +41,15 @@ namespace DAL
             return new PackageRepo();
         }
 
+        public static IRepo<Trip, int, bool> TripDataAccess()
+        {
+            return new TripRepo();
+        }
+
+        public static IRepo<Hotel, int, bool> HotelDataAccess()
+        {
+            return new HotelRepo();
+        }
+
     }
 }

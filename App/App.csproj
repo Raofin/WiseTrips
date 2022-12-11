@@ -90,8 +90,11 @@
     <Compile Include="Controllers\AgencyController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\CouponController.cs" />
+    <Compile Include="Controllers\HotelController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\TripController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

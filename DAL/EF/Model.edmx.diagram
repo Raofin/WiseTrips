@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="WiseTripsModel.Coupon" Width="1.5" PointX="5.375" PointY="2.875" IsExpanded="true" />
         <EntityTypeShape EntityType="WiseTripsModel.Hotel" Width="1.5" PointX="10.125" PointY="4.5" IsExpanded="true" />
         <EntityTypeShape EntityType="WiseTripsModel.Package" Width="1.5" PointX="7.375" PointY="0.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="WiseTripsModel.Role" Width="1.5" PointX="1.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="WiseTripsModel.Role" Width="1.5" PointX="1" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="WiseTripsModel.Token" Width="1.5" PointX="0.5" PointY="4.875" IsExpanded="true" />
         <EntityTypeShape EntityType="WiseTripsModel.Trip" Width="1.5" PointX="7.75" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="WiseTripsModel.User" Width="1.5" PointX="2.875" PointY="3.75" IsExpanded="true" />

@@ -13,7 +13,7 @@ namespace BLL.DTOs
         public int PackageId { get; set; }
         public int HotelId { get; set; }
         public int Persons { get; set; }
-        public System.DateTime Date { get; set; }
+        public DateTime Date { get; set; }
         public int? UsedCoupon { get; set; }
         public int Paid { get; set; }
     }

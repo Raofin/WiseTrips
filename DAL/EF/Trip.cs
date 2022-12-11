@@ -17,7 +17,7 @@ namespace DAL.EF
         public int Id { get; set; }
         public int UserId { get; set; }
         public int PackageId { get; set; }
-        public Nullable<int> HotelId { get; set; }
+        public int HotelId { get; set; }
         public int Persons { get; set; }
         public System.DateTime Date { get; set; }
         public Nullable<int> UsedCoupon { get; set; }

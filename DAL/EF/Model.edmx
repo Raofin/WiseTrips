@@ -73,7 +73,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="PackageId" Type="int" Nullable="false" />
-          <Property Name="HotelId" Type="int" />
+          <Property Name="HotelId" Type="int" Nullable="false" />
           <Property Name="Persons" Type="int" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
           <Property Name="UsedCoupon" Type="int" />
@@ -203,7 +203,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Trips_Hotels">
-          <End Role="Hotels" Type="Self.Hotels" Multiplicity="0..1" />
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="1" />
           <End Role="Trips" Type="Self.Trips" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Hotels">
@@ -348,7 +348,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="PackageId" Type="Int32" Nullable="false" />
-          <Property Name="HotelId" Type="Int32" />
+          <Property Name="HotelId" Type="Int32" Nullable="false" />
           <Property Name="Persons" Type="Int32" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UsedCoupon" Type="Int32" />
@@ -437,7 +437,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Trips_Hotels">
-          <End Role="Hotels" Type="Self.Hotel" Multiplicity="0..1" />
+          <End Role="Hotels" Type="Self.Hotel" Multiplicity="1" />
           <End Role="Trips" Type="Self.Trip" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Hotels">
