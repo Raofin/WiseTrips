@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using App.Auth;
 using BLL.DTOs;
 using BLL.Services;
@@ -11,6 +12,7 @@ using BLL.Services;
 namespace App.Controllers
 {
     [LoggedIn]
+    [EnableCors("*", "*", "*")]
     public class TripController : ApiController
     {
         [HttpGet]

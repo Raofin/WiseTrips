@@ -6,12 +6,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace App.Controllers
 {
+    [EnableCors("*", "*", "*")]
     public class CouponController : ApiController
     {
-
         [Route("api/coupons")]
         [HttpGet]
         public HttpResponseMessage Get()
