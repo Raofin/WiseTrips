@@ -12,13 +12,18 @@ namespace DAL.EF
     using System;
     using System.Collections.Generic;
     
-    public partial class Token
+    public partial class Log
     {
         public int Id { get; set; }
-        public string AuthToken { get; set; }
-        public System.DateTime CreatedOn { get; set; }
-        public System.DateTime ExpiredOn { get; set; }
-        public int UserId { get; set; }
+        public Nullable<int> UserId { get; set; }
+        public string Action { get; set; }
+        public string OldUsername { get; set; }
+        public string OldEmail { get; set; }
+        public string OldPassword { get; set; }
+        public string NewUsername { get; set; }
+        public string NewEmail { get; set; }
+        public string NewPassword { get; set; }
+        public System.DateTime DateTime { get; set; }
     
         public virtual User User { get; set; }
     }

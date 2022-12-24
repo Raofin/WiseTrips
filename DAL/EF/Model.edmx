@@ -35,6 +35,21 @@
           <Property Name="Star" Type="int" Nullable="false" />
           <Property Name="Price" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Logs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Action" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="OldUsername" Type="varchar" MaxLength="50" />
+          <Property Name="OldEmail" Type="varchar" MaxLength="50" />
+          <Property Name="OldPassword" Type="varchar" MaxLength="50" />
+          <Property Name="NewUsername" Type="varchar" MaxLength="50" />
+          <Property Name="NewEmail" Type="varchar" MaxLength="50" />
+          <Property Name="NewPassword" Type="varchar" MaxLength="50" />
+          <Property Name="DateTime" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="Packages">
           <Key>
             <PropertyRef Name="Id" />
@@ -63,7 +78,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AuthToken" Type="varchar" MaxLength="128" Nullable="false" />
           <Property Name="CreatedOn" Type="datetime" Nullable="false" />
-          <Property Name="ExpireOn" Type="datetime" Nullable="false" />
+          <Property Name="ExpiredOn" Type="datetime" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Trips">
@@ -166,6 +181,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Logs_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Logs" Type="Self.Logs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Packages_Agencies">
           <End Role="Agencies" Type="Self.Agencies" Multiplicity="1" />
           <End Role="Packages" Type="Self.Packages" Multiplicity="*" />
@@ -218,6 +245,7 @@
           <EntitySet Name="Agencies" EntityType="Self.Agencies" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Coupons" EntityType="Self.Coupons" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Packages" EntityType="Self.Packages" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tokens" EntityType="Self.Tokens" Schema="dbo" store:Type="Tables" />
@@ -246,6 +274,10 @@
           <AssociationSet Name="FK_Histories_Users" Association="Self.FK_Histories_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Trips" EntitySet="Trips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logs_Users" Association="Self.FK_Logs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Logs" EntitySet="Logs" />
           </AssociationSet>
           <AssociationSet Name="FK_Packages_Agencies" Association="Self.FK_Packages_Agencies">
             <End Role="Agencies" EntitySet="Agencies" />
@@ -306,6 +338,22 @@
           <Property Name="Price" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Trips" Relationship="Self.FK_Trips_Hotels" FromRole="Hotels" ToRole="Trips" />
         </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Action" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OldUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OldEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OldPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NewUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NewEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NewPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Logs_Users" FromRole="Logs" ToRole="Users" />
+        </EntityType>
         <EntityType Name="Package">
           <Key>
             <PropertyRef Name="Id" />
@@ -337,7 +385,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AuthToken" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="ExpireOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiredOn" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_Tokens_Users" FromRole="Tokens" ToRole="Users" />
         </EntityType>
@@ -372,6 +420,7 @@
           <Property Name="AccountStatus" Type="Boolean" />
           <NavigationProperty Name="Agencies" Relationship="Self.FK_Agencies_Users" FromRole="Users" ToRole="Agencies" />
           <NavigationProperty Name="Coupons" Relationship="Self.FK_Coupons_Users" FromRole="Users" ToRole="Coupons" />
+          <NavigationProperty Name="Logs" Relationship="Self.FK_Logs_Users" FromRole="Users" ToRole="Logs" />
           <NavigationProperty Name="Roles" Relationship="Self.FK_Roles_Users" FromRole="Users" ToRole="Roles" />
           <NavigationProperty Name="Tokens" Relationship="Self.FK_Tokens_Users" FromRole="Users" ToRole="Tokens" />
           <NavigationProperty Name="Trips" Relationship="Self.FK_Histories_Users" FromRole="Users" ToRole="Trips" />
@@ -448,6 +497,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Logs_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Logs" Type="Self.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Logs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Histories_Packages">
           <End Role="Packages" Type="Self.Package" Multiplicity="1" />
           <End Role="Trips" Type="Self.Trip" Multiplicity="*" />
@@ -502,6 +563,7 @@
           <EntitySet Name="Agencies" EntityType="Self.Agency" />
           <EntitySet Name="Coupons" EntityType="Self.Coupon" />
           <EntitySet Name="Hotels" EntityType="Self.Hotel" />
+          <EntitySet Name="Logs" EntityType="Self.Log" />
           <EntitySet Name="Packages" EntityType="Self.Package" />
           <EntitySet Name="Roles" EntityType="Self.Role" />
           <EntitySet Name="Tokens" EntityType="Self.Token" />
@@ -530,6 +592,10 @@
           <AssociationSet Name="FK_Trips_Hotels" Association="Self.FK_Trips_Hotels">
             <End Role="Hotels" EntitySet="Hotels" />
             <End Role="Trips" EntitySet="Trips" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Logs_Users" Association="Self.FK_Logs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Logs" EntitySet="Logs" />
           </AssociationSet>
           <AssociationSet Name="FK_Histories_Packages" Association="Self.FK_Histories_Packages">
             <End Role="Packages" EntitySet="Packages" />
@@ -587,6 +653,22 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="WiseTripsModel.Log">
+              <MappingFragment StoreEntitySet="Logs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Action" ColumnName="Action" />
+                <ScalarProperty Name="OldUsername" ColumnName="OldUsername" />
+                <ScalarProperty Name="OldEmail" ColumnName="OldEmail" />
+                <ScalarProperty Name="OldPassword" ColumnName="OldPassword" />
+                <ScalarProperty Name="NewUsername" ColumnName="NewUsername" />
+                <ScalarProperty Name="NewEmail" ColumnName="NewEmail" />
+                <ScalarProperty Name="NewPassword" ColumnName="NewPassword" />
+                <ScalarProperty Name="DateTime" ColumnName="DateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Packages">
             <EntityTypeMapping TypeName="WiseTripsModel.Package">
               <MappingFragment StoreEntitySet="Packages">
@@ -616,7 +698,7 @@
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
                 <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
-                <ScalarProperty Name="ExpireOn" ColumnName="ExpireOn" />
+                <ScalarProperty Name="ExpiredOn" ColumnName="ExpiredOn" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>

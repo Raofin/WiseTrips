@@ -28,6 +28,7 @@ namespace DAL.EF
         public DbSet<Agency> Agencies { get; set; }
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Log> Logs { get; set; }
         public DbSet<Package> Packages { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Token> Tokens { get; set; }

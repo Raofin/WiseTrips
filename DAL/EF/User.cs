@@ -18,6 +18,7 @@ namespace DAL.EF
         {
             this.Agencies = new HashSet<Agency>();
             this.Coupons = new HashSet<Coupon>();
+            this.Logs = new HashSet<Log>();
             this.Roles = new HashSet<Role>();
             this.Tokens = new HashSet<Token>();
             this.Trips = new HashSet<Trip>();
@@ -34,6 +35,7 @@ namespace DAL.EF
     
         public virtual ICollection<Agency> Agencies { get; set; }
         public virtual ICollection<Coupon> Coupons { get; set; }
+        public virtual ICollection<Log> Logs { get; set; }
         public virtual ICollection<Role> Roles { get; set; }
         public virtual ICollection<Token> Tokens { get; set; }
         public virtual ICollection<Trip> Trips { get; set; }

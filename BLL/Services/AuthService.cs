@@ -21,7 +21,7 @@ namespace BLL.Services
                 var token = new Token {
                     AuthToken = Guid.NewGuid().ToString(),
                     CreatedOn = DateTime.Now,
-                    ExpireOn = DateTime.Now.AddHours(1),
+                    ExpiredOn = DateTime.Now.AddHours(1),
                     UserId = DataAccessFactory.UserDataAccess().Get().First(u => u.Username == username).Id
                 };
 
@@ -40,7 +40,7 @@ namespace BLL.Services
         public static bool TokenValidity(string value)
         {
             var token = DataAccessFactory.TokenDataAccess().Get(value);
-            return Convert.ToDateTime(token.ExpireOn) > DateTime.Now;
+            return Convert.ToDateTime(token.ExpiredOn) > DateTime.Now;
         }
     }
 }
