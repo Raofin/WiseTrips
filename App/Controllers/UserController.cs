@@ -21,7 +21,7 @@ namespace App.Controllers
         }
 
         [HttpGet]
-        [Route("api/users")]
+        [Route("api/users/{id}")]
         public HttpResponseMessage GetUser(int id)
         {
             return Request.CreateResponse(HttpStatusCode.OK, UserService.Get(id));

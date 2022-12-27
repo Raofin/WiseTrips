@@ -59,6 +59,7 @@
     <Compile Include="Services\CouponService.cs" />
     <Compile Include="Services\HotelService.cs" />
     <Compile Include="Services\PackageService.cs" />
+    <Compile Include="Services\RoleServices.cs" />
     <Compile Include="Services\TripService.cs" />
     <Compile Include="Services\UserService.cs" />
   </ItemGroup>

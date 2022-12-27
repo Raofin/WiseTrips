@@ -99,6 +99,7 @@
     <Compile Include="Repositories\HotelRepo.cs" />
     <Compile Include="Repositories\PackageRepo.cs" />
     <Compile Include="Repositories\Repo.cs" />
+    <Compile Include="Repositories\RoleRepo.cs" />
     <Compile Include="Repositories\TokenRepo.cs" />
     <Compile Include="Repositories\TripRepo.cs" />
     <Compile Include="Repositories\UserRepo.cs" />

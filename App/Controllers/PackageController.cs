@@ -21,7 +21,7 @@ namespace App.Controllers
             var data = PackageService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/packages/{id}")]
+        [Route("api/packages")]
         [HttpGet]
         public HttpResponseMessage Get(int id)
         {
