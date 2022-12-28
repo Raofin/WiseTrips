@@ -12,7 +12,7 @@ using BLL.Services;
 
 namespace App.Controllers
 {
-    /*[LoggedIn]*/
+    [LoggedIn]
     [EnableCors("*", "*", "*")]
     public class TripController : ApiController
     {

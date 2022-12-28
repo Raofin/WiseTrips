@@ -98,6 +98,7 @@
     <Compile Include="Controllers\CouponController.cs" />
     <Compile Include="Controllers\HotelController.cs" />
     <Compile Include="Controllers\PackageController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\TripController.cs" />
     <Compile Include="Controllers\UserController.cs" />

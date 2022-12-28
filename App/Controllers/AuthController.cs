@@ -25,5 +25,18 @@ namespace App.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.NotFound);
         }
+
+        [HttpGet]
+        [Route("api/logout")]
+        public HttpResponseMessage Logout()
+        {
+            var authToken = Request.Headers.Authorization.ToString();
+
+            if (AuthService.Logout(authToken))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.OK, "Successfully logged out.");
+            }
+            return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid token");
+        }
     }
 }

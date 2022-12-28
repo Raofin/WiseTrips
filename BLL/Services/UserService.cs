@@ -28,7 +28,7 @@ namespace BLL.Services
         public static UserDto Get(int id)
         {
             var data = DataAccessFactory.UserDataAccess().Get(id);           
-            return mapper.Map<UserDto>(data); 
+            return mapper.Map<UserDto>(data);
         }
 
         public static UserDto Get(string username)
@@ -58,10 +58,19 @@ namespace BLL.Services
             return DataAccessFactory.UserDataAccess().Update(data);
         }
 
-        public static bool Register(UserDto userDto, RoleDto roleDto)
+        public static bool Register(UserDto userDto, string roleName)
         {
-            Add(userDto);
+            var role = new RoleDto
+            {
+                Name = roleName,
+                AddedOn = DateTime.Now,
+                UserId = 1
+            };
 
+            userDto.RegisteredOn = DateTime.Now;
+            userDto.AccountStatus = true;
+
+            return UserService.Add(userDto) && RoleService.Add(role);
         }
     }
 }

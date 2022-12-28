@@ -29,9 +29,9 @@ namespace App.Controllers
 
         [HttpPost]
         [Route("api/register")]
-        public HttpResponseMessage AddUser(UserDto userDto)
+        public HttpResponseMessage AddUser(UserDto userDto, string role)
         {
-            var user = UserService.Add(userDto);
+            var user = UserService.Register(userDto, role);
             return Request.CreateResponse(HttpStatusCode.OK, user);
         }
 

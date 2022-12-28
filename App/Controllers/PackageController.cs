@@ -7,9 +7,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using App.Auth;
 
 namespace App.Controllers
 {
+    [LoggedIn]
     [EnableCors("*", "*", "*")]
     public class PackageController : ApiController
     {
