@@ -20,25 +20,6 @@ namespace App.Controllers
         [Route("api/trips")]
         public HttpResponseMessage GetTrips()
         {
-            /*var trips = new ArrayList();
-
-            foreach (var trip in TripService.GetAll())
-            {
-                trips.Add(trip.Id);
-                trips.Add(UserService.Get(trip.UserId));
-                trips.Add(PackageService.Get(trip.PackageId));
-                trips.Add(HotelService.Get(trip.HotelId));
-                trips.Add(trip.Persons);
-                trips.Add(trip.Date);
-                if (trip.UsedCoupon == null)
-                    trips.Add("No Coupon Applied");
-                else
-                {
-                    trips.Add(CouponService.Get((int)trip.UsedCoupon));
-                }
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, trips);*/
             return Request.CreateResponse(HttpStatusCode.OK, TripService.GetAll());
         }
 
@@ -50,11 +31,15 @@ namespace App.Controllers
         }
 
         [HttpPost]
-        [Route("api/trips/add")]
+        [Route("api/trip/add")]
         public HttpResponseMessage AddTrip(TripDto tripDto)
         {
-            var project = TripService.Add(tripDto);
-            return Request.CreateResponse(HttpStatusCode.OK, project);
+            var user = UserService.GetByToken(Request.Headers.Authorization.ToString());
+            tripDto.UserId = user.Id;
+
+            var trip = TripService.Add(tripDto);
+
+            return Request.CreateResponse(HttpStatusCode.OK, trip);
         }
     }
 }

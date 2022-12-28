@@ -37,6 +37,12 @@ namespace BLL.Services
             return mapper.Map<UserDto>(data);
         }
 
+        public static UserDto GetByToken(string token)
+        {
+            var data = DataAccessFactory.AuthDataAccess().GetUser(token);
+            return mapper.Map<UserDto>(data);
+        }
+
         public static bool Add(UserDto userDto)
         {
             var data = mapper.Map<User>(userDto);

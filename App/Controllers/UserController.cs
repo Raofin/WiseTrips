@@ -27,6 +27,13 @@ namespace App.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, UserService.Get(id));
         }
 
+        [HttpGet]
+        [Route("api/get-user")]
+        public HttpResponseMessage GetUser(string token)
+        {
+            return Request.CreateResponse(HttpStatusCode.OK, UserService.GetByToken(token));
+        }
+
         [HttpPost]
         [Route("api/register")]
         public HttpResponseMessage AddUser(UserDto userDto, string role)

@@ -33,6 +33,7 @@ namespace BLL.Services
         public static bool Add(TripDto tripDto)
         {
             var trip = mapper.Map<Trip>(tripDto);
+
             var discount = trip.UsedCoupon != null ? CouponService.Get((int)trip.UsedCoupon).Discount : 0;
 
             // amount = package price + (hotel price * persons)

@@ -72,5 +72,16 @@ namespace DAL.Repositories
             db.SaveChanges();
             return true;
         }
+
+        public User GetUser(string token)
+        {
+            var user = (from u in db.Users
+                        where u.Id == (from t in db.Tokens 
+                            where t.AuthToken == token && t.ExpiredOn > DateTime.Now 
+                            select t.UserId).FirstOrDefault()
+                        select u).FirstOrDefault();
+            
+            return user;
+        }
     }
 }

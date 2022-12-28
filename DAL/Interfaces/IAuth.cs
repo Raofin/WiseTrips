@@ -11,5 +11,6 @@ namespace DAL.Interfaces
     {
         User Authenticate(string username, string password);
         bool Logout(string token);
+        User GetUser(string token);
     }
 }
