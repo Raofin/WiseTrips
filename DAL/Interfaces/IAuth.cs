@@ -10,7 +10,9 @@ namespace DAL.Interfaces
     public interface IAuth
     {
         User Authenticate(string username, string password);
+
         bool Logout(string token);
+
         User GetUser(string token);
     }
 }

@@ -6,28 +6,56 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Hosting;
 using System.Web.Http;
+using System.Web.Http.Cors;
+using App.Auth;
+using BLL.DTOs;
 using BLL.Services;
 using iText.Html2pdf;
 
 namespace App.Controllers
 {
+    /*[LoggedIn]*/
+    [EnableCors("*", "*", "*")]
     public class PdfController : ApiController
     {
         [HttpGet]
         [Route("api/pdf")]
-        public HttpResponseMessage Logout()
+        public HttpResponseMessage Pdf()
         {
-            return Request.CreateErrorResponse(HttpStatusCode.OK, GeneratePdf());
+            var pdf = GeneratePdf();
+            return Request.CreateErrorResponse(HttpStatusCode.OK, pdf);
         }
 
         public string GeneratePdf()
         {
             try
             {
-                var html = @"<!DOCTYPE html><html><head> <meta charset=""utf-8""/> <title></title></head><body><h1>Hello World</h1><h2>Hello!</h2></body></html>";
+                var trip = TripService.GetAll().Last();
+
+                var html = $@"
+                        <!DOCTYPE html>
+                        <html lang='en'>
+                        <head>
+                            <meta charset='UTF-8'>
+                            <title>Title</title>
+                        </head>
+                        <body>
+                        <h1 style='text-align: center'>Wise Trips</h1>
+                        <h2>Trip Details</h2>
+                        <p><b>Username: </b> {UserService.Get(trip.UserId).Username}</p>
+                        <p><b>Package Name: </b>{PackageService.Get(trip.PackageId).Name}</p>
+                        <p><b>Package Details: </b>{PackageService.Get(trip.PackageId).Details}</p>
+                        <p><b>Hotel Name: </b>{HotelService.Get(trip.HotelId).Name}</p>
+                        <p><b>Hotel Details: </b>{HotelService.Get(trip.HotelId).Description}</p>
+                        <p><b>Total Persons: </b>{trip.Persons}</p>
+                        <p><b>Date: </b>{trip.Date}</p>
+                        <p><b>Total Paid: </b>${trip.Paid}</p>
+                        </body>
+                        </html>";
 
                 var mapPath = HostingEnvironment.MapPath("~\\PDF\\");
-                var filename = System.Guid.NewGuid().ToString();
+                /*var filename = System.Guid.NewGuid().ToString().Substring(0, 5);*/
+                var filename = UserService.Get(trip.UserId).Username + "_" + trip.Date.ToString("yyyy-MM-dd_HH-mm-ss");
                 var pdfPath = mapPath + filename + ".pdf";
                 var serverPdfPath = "https://localhost:44373/PDF/" + filename + ".pdf";
 

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using App.Auth;
 using BLL.DTOs;
 using BLL.Services;
 
@@ -28,10 +29,11 @@ namespace App.Controllers
         }
 
         [HttpGet]
-        [Route("api/get-user")]
-        public HttpResponseMessage GetUser(string token)
+        [Route("api/logged-in-user")]
+        public HttpResponseMessage GetUser()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, UserService.GetByToken(token));
+            var user = UserService.GetByToken(Request.Headers.Authorization.ToString());
+            return Request.CreateResponse(HttpStatusCode.OK, user);
         }
 
         [HttpPost]
