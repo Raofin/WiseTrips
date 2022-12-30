@@ -16,7 +16,8 @@ namespace BLL.Services
             new MapperConfiguration(c => {
                 c.CreateMap<Trip, TripDto>();
                 c.CreateMap<TripDto, Trip>();
-            }));
+            })
+        );
 
         public static List<TripDto> GetAll()
         {
@@ -34,7 +35,9 @@ namespace BLL.Services
         {
             var trip = mapper.Map<Trip>(tripDto);
 
-            var discount = trip.UsedCoupon != null ? CouponService.Get((int)trip.UsedCoupon).Discount : 0;
+            var discount = trip.UsedCoupon != null 
+                ? CouponService.Get((int)trip.UsedCoupon).Discount 
+                : 0;
 
             // amount = package price + (hotel price * persons)
             var amount = PackageService.Get(trip.PackageId).Price + HotelService.Get(trip.HotelId).Price * trip.Persons + discount;

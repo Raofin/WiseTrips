@@ -17,7 +17,8 @@ namespace BLL.Services
             new MapperConfiguration(cfg => {
                cfg.CreateMap<User, UserDto>();
                cfg.CreateMap<UserDto, User>();
-            }));
+            })
+        );
                             
         public static List<UserDto> Get()
         {

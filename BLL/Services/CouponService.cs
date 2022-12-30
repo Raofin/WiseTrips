@@ -14,23 +14,22 @@ namespace BLL.Services
     {
         public static List<CouponDto> Get()
         {
-            var dbdata = DataAccessFactory.CouponDataAccess().Get();
+            var coupons = DataAccessFactory.CouponDataAccess().Get();
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Coupon, CouponDto>());
             var mapper = new Mapper(config);
-            var data = mapper.Map<List<CouponDto>>(dbdata);  //List convert data by list
+            var data = mapper.Map<List<CouponDto>>(coupons);
             return data;
-        
         }
+
         public static CouponDto Get(int id)
         {
-            var dbdata = DataAccessFactory.CouponDataAccess().Get(id);
+            var coupon = DataAccessFactory.CouponDataAccess().Get(id);
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Coupon, CouponDto>());
             var mapper = new Mapper(config);
-            var data = mapper.Map<CouponDto>(dbdata);  //List convert data by list
+            var data = mapper.Map<CouponDto>(coupon);
             return data;
-
-
         }
+
         public static bool Add(CouponDto dto)
         {
             var config = new MapperConfiguration(cfg =>
@@ -39,14 +38,13 @@ namespace BLL.Services
                 cfg.CreateMap<CouponDto, Coupon>();
             });
 
-
             var mapper = new Mapper(config);
-            var data = mapper.Map<Coupon>(dto);               //List convert data by list
+            var data = mapper.Map<Coupon>(dto);
             var result = DataAccessFactory.CouponDataAccess().Add(data);
-            //var redata = mapper.Map<CouponDto>(result);
             return result;
         }
-        public static void Update(CouponDto coupon)       //coupon
+
+        public static void Update(CouponDto coupon)
         {
             var config = new MapperConfiguration(cfg => {
                 cfg.CreateMap<CouponDto, Coupon>();
@@ -55,10 +53,6 @@ namespace BLL.Services
             var mapper = new Mapper(config);
             var data = mapper.Map<Coupon>(coupon);
             DataAccessFactory.CouponDataAccess().Update(data);
-            //return result;
-
         }
-
-
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using AutoMapper;
 using BLL.DTOs;
 using DAL;
@@ -12,11 +8,12 @@ namespace BLL.Services
 {
     public class HotelService
     {
-        private static Mapper mapper = new Mapper(
+        private static readonly Mapper mapper = new Mapper(
             new MapperConfiguration(c => {
                 c.CreateMap<Hotel, HotelDto>();
                 c.CreateMap<HotelDto, Hotel>();
-            }));
+            })
+        );
 
         public static List<HotelDto> GetAll()
         {

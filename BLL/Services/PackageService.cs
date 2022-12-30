@@ -19,46 +19,34 @@ namespace BLL.Services
                 c.CreateMap<Package, PackageDto>();
             });
             var mapper = new Mapper(config);
-            var dbobj = mapper.Map<Package>(data);
-            var ret = DataAccessFactory.PackageDataAccess().Add(dbobj);
+            var package = mapper.Map<Package>(data);
+            var ret = DataAccessFactory.PackageDataAccess().Add(package);
+
             if (ret != null)
             {
                 return mapper.Map<PackageDto>(data);
             }
-            else
-            {
-                return null;
-            }
-
-
-
+            return null;
         }
-        //public static object GetAll()
-        // {
-        //throw new NotImplementedException();
-        //}
-        public static List<PackageDto> Get()   //chnage3
-        {
 
-            var dbdata = DataAccessFactory.PackageDataAccess().Get();
+        public static List<PackageDto> Get()
+        {
+            var packages = DataAccessFactory.PackageDataAccess().Get();
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Package, PackageDto>());
             var mapper = new Mapper(config);
-            var data = mapper.Map<List<PackageDto>>(dbdata);  //List convert data by list
-
+            var data = mapper.Map<List<PackageDto>>(packages);
             return data;
         }
 
-        public static PackageDto Get(int id)       //chnage2
+        public static PackageDto Get(int id)
         {
             var data = DataAccessFactory.PackageDataAccess().Get(id);
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Package, PackageDto>());
             var mapper = new Mapper(config);
-            var user = mapper.Map<PackageDto>(data);  //list convert user to list
+            var user = mapper.Map<PackageDto>(data);
             return user;
-
-
-
         }
+
         public static void Update(PackageDto data)
         {
             var config = new MapperConfiguration(c => {
@@ -66,20 +54,13 @@ namespace BLL.Services
                 c.CreateMap<Package, PackageDto>();
             });
             var mapper = new Mapper(config);
-            var dbobj = mapper.Map<Package>(data);
-            DataAccessFactory.PackageDataAccess().Update(dbobj);
-
-
-
+            var package = mapper.Map<Package>(data);
+            DataAccessFactory.PackageDataAccess().Update(package);
         }
+
         public static bool Delete(int id)
         {
-            var ret = DataAccessFactory.PackageDataAccess().Delete(id);
-            return ret;
-
-
-
-
+            return DataAccessFactory.PackageDataAccess().Delete(id);
         }
     }
 }
