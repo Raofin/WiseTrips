@@ -13,48 +13,41 @@ namespace App.Controllers
     [EnableCors("*", "*", "*")]
     public class CouponController : ApiController
     {
-        [Route("api/coupons")]
         [HttpGet]
+        [Route("api/coupons")]
         public HttpResponseMessage Get()
         {
             var data = CouponService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/coupons/{id}")]
+
         [HttpGet]
+        [Route("api/coupons/{id}")]
         public HttpResponseMessage Get(int id)
         {
             var data = CouponService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/coupons/add")]
+
         [HttpPost]
+        [Route("api/coupons/add")]
         public HttpResponseMessage Add(CouponDto coupon)
         {
-
-
             var data = CouponService.Add(coupon);
+
             if (data)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
-
-
         }
-        [Route("api/coupons/update")]
+
         [HttpPost]
-        public HttpResponseMessage Update(CouponDto coupon)  //coupon
+        [Route("api/coupons/update")]
+        public HttpResponseMessage Update(CouponDto coupon)
         {
-
-
-            CouponService.Update(coupon);      //user
-                                             //    if (data)
-                                             //    {
+            CouponService.Update(coupon);
             return Request.CreateResponse(HttpStatusCode.OK);
-            //    }
-            //    return Request.CreateResponse(HttpStatusCode.InternalServerError);
-            //}
         }
     }
 }

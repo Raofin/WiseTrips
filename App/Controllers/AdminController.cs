@@ -13,27 +13,28 @@ namespace App.Controllers
     [EnableCors("*", "*", "*")]
     public class AdminController : ApiController
     {
-        [Route("api/admin/users")]
         [HttpGet]
+        [Route("api/admin/users")]
         public HttpResponseMessage Get()
         {
             var data = UserService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/admin/users/{id}")]
+
         [HttpGet]
+        [Route("api/admin/users/{id}")]
         public HttpResponseMessage Get(int id)
         {
             var data = UserService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/admin/users/add")]
+
         [HttpPost]
-        public HttpResponseMessage Add(UserDto user)  //user
+        [Route("api/admin/users/add")]
+        public HttpResponseMessage Add(UserDto user)
         {
-
-
-            var data = UserService.Add(user);      //user
+            var data = UserService.Add(user);
+            
             if (data)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, data);
@@ -41,36 +42,20 @@ namespace App.Controllers
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
         }
 
-        [Route("api/admin/users/delete/{ID}")]
         [HttpDelete]
-        public HttpResponseMessage Delete(int ID)  //user
+        [Route("api/admin/users/delete/{id}")]
+        public HttpResponseMessage Delete(int id)
         {
-
-
-            UserService.Delete(ID);      //user
-                                         // if (data)
-                                         // {
+            UserService.Delete(id);
             return Request.CreateResponse(HttpStatusCode.OK);
-            //   }
-            //    return Request.CreateResponse(HttpStatusCode.InternalServerError);
-            //}
-
-
         }
-        [Route("api/admin/users/update")]         //user update done
+
         [HttpPost]
-        public HttpResponseMessage Update(UserDto user)  //user
+        [Route("api/admin/users/update")]
+        public HttpResponseMessage Update(UserDto user)
         {
-
-
-            UserService.Update(user);      //user
-                                           //    if (data)
-                                           //    {
+            UserService.Update(user);
             return Request.CreateResponse(HttpStatusCode.OK);
-            //    }
-            //    return Request.CreateResponse(HttpStatusCode.InternalServerError);
-            //}
-
         }
     }
 }

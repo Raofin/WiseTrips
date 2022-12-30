@@ -15,52 +15,50 @@ namespace App.Controllers
     [EnableCors("*", "*", "*")]
     public class PackageController : ApiController
     {
-        [Route("api/packages")]
-
         [HttpGet]
+        [Route("api/packages")]
         public HttpResponseMessage Get()
         {
             var data = PackageService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/package/{id}")]
+
         [HttpGet]
+        [Route("api/package/{id}")]
         public HttpResponseMessage Get(int id)
         {
             var data = PackageService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
-        [Route("api/packages/add")]
+        
         [HttpPost]
+        [Route("api/packages/add")]
         public HttpResponseMessage Add(PackageDto package)
         {
-
-
             var data = PackageService.Add(package);
+            
             if (data != null)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, data);
             }
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
         }
-        [Route("api/packages/update/{id}")]
+        
         [HttpGet]
+        [Route("api/packages/update/{id}")]
         public HttpResponseMessage Update(PackageDto package)
         {
-
-
             PackageService.Update(package);
             return Request.CreateResponse(HttpStatusCode.OK);
-
         }
-        [Route("api/packages/delete/{id}")]
+
         [HttpGet]
+        [Route("api/packages/delete/{id}")]
         public HttpResponseMessage Delete(int id)
         {
-
-
             var data = PackageService.Delete(id);
-            if (data != false)
+
+            if (data)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "deleted");
             }
