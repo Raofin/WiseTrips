@@ -10,22 +10,10 @@ namespace DAL.Repositories
 {
     public class CouponRepo : IRepo<Coupon, int, bool>
     {
-        //WiseTripsEntities db;
-        //private Coupon obj;
-
-        //internal CouponRepo()    
-        //{
-        //    db = new WiseTripsEntities();
-        //}
-
         WiseTripsEntities db = new WiseTripsEntities();
 
-
-        public  bool Add(Coupon obj)    //on going
+        public  bool Add(Coupon obj)
         {
-            //db.Coupons.Add(obj);
-            //db.SaveChanges();     
-            //return obj;
             db.Coupons.Add(obj);
             return db.SaveChanges() > 0;
         }
@@ -34,8 +22,6 @@ namespace DAL.Repositories
         {
             db.Coupons.Remove(db.Coupons.Find(id));
             return db.SaveChanges()>0;
-
-
         }
 
         public List<Coupon> Get()
@@ -48,12 +34,6 @@ namespace DAL.Repositories
             return db.Coupons.Find(id);
         }
 
-        //public bool Update(Coupon obj)
-        //{
-        //    var ext = db.Coupons.Find(obj.Id);
-        //    db.Entry(ext).CurrentValues.SetValues(obj);
-        //    return db.SaveChanges() > 0;
-        //}
         public bool Update(Coupon obj)
         {
             var ext = Get(obj.Id);

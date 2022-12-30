@@ -55,6 +55,5 @@ namespace DAL
         {
             return new RoleRepo();
         }
-
     }
 }

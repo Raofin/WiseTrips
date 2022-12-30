@@ -39,15 +39,7 @@ namespace DAL.Repositories
         {
             var token = Get(obj.AuthToken);
             db.Entry(token).CurrentValues.SetValues(obj);
-            if (db.SaveChanges() > 0)
-            {
-                return obj;
-            }
-            else
-            {
-                return null;
-            }
+            return db.SaveChanges() > 0 ? obj : null;
         }
-       
     }
 }

@@ -14,20 +14,13 @@ namespace DAL.Repositories
         public Package Add(Package obj)
         {
             db.Packages.Add(obj);
-            if (db.SaveChanges() > 0)
-            {
-                return obj;
-            }
-            else
-            {
-                return null;
-            }
+            return db.SaveChanges() > 0 ? obj : null;
         }
 
         public bool Delete(int id)
         {
-            var ext = db.Packages.Find(id);
-            db.Packages.Remove(ext);
+            var package = db.Packages.Find(id);
+            db.Packages.Remove(package);
             return db.SaveChanges() > 0;
         }
 
@@ -43,17 +36,9 @@ namespace DAL.Repositories
 
         public Package Update(Package obj)
         {
-            var dbobj = Get(obj.Id);
-            db.Entry(dbobj).CurrentValues.SetValues(obj);
-            if (db.SaveChanges() > 0)
-            {
-                return obj;
-            }
-            else
-            {
-                return null;
-            }
-
+            var package = Get(obj.Id);
+            db.Entry(package).CurrentValues.SetValues(obj);
+            return db.SaveChanges() > 0 ? obj : null;
         }
     }
 }

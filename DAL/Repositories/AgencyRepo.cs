@@ -13,22 +13,14 @@ namespace DAL.Repositories
         public Agency Add(Agency obj)
         {
             db.Agencies.Add(obj);
-            if (db.SaveChanges() > 0)
-            {
-                return obj;
-            }
-            else
-            {
-                return null;
-            }
 
-
+            return db.SaveChanges() > 0 ? obj : null;
         }
 
         public bool Delete(int id)
         {
-            var ext = db.Agencies.Find(id);
-            db.Agencies.Remove(ext);
+            var agency = db.Agencies.Find(id);
+            db.Agencies.Remove(agency);
             return db.SaveChanges() > 0;
         }
 
@@ -44,17 +36,10 @@ namespace DAL.Repositories
 
         public Agency Update(Agency obj)
         {
-            var ext = Get(obj.Id);
-            db.Entry(ext).CurrentValues.SetValues(obj);
-            if (db.SaveChanges() > 0)
-            {
-                return obj;
-            }
-            else
-            {
-                return null;
-            }
-
+            var agency = Get(obj.Id);
+            db.Entry(agency).CurrentValues.SetValues(obj);
+            
+            return db.SaveChanges() > 0 ? obj : null;
         }
     }
 }

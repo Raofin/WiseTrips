@@ -10,25 +10,23 @@ namespace DAL.Repositories
 {
     public class UserRepo : IRepo<User, int, bool>, IAuth
     {
-        // WiseTripsEntities db = new WiseTripsEntities();      //old
         WiseTripsEntities db;
+
         internal UserRepo()
         {
             db = new WiseTripsEntities();
         }
 
-
-
-        public bool Add(User obj)      //bool ,User
+        public bool Add(User obj)
         {
             db.Users.Add(obj);
-            return db.SaveChanges() > 0;       //save changes means it return numeric value(1,2,3..)
+            return db.SaveChanges() > 0;
         }
 
         public bool Delete(int id)
         {
-            var ext = db.Users.Find(id);
-            db.Users.Remove(ext);
+            var user = db.Users.Find(id);
+            db.Users.Remove(user);
             return db.SaveChanges() > 0;
         }
 
@@ -51,15 +49,12 @@ namespace DAL.Repositories
 
         public User Authenticate(string username, string password)
         {
-            var user = db.Users.FirstOrDefault(
-                u =>
+            var user = db.Users.FirstOrDefault(u =>
                     u.Username.Equals(username) &&
                     u.Password.Equals(password)
             );
             return user;
         }
-
-
 
         public bool Logout(string token)
         {
@@ -75,13 +70,11 @@ namespace DAL.Repositories
 
         public User GetUser(string token)
         {
-            var user = (from u in db.Users
-                        where u.Id == (from t in db.Tokens 
-                            where t.AuthToken == token && t.ExpiredOn > DateTime.Now 
-                            select t.UserId).FirstOrDefault()
-                        select u).FirstOrDefault();
-            
-            return user;
+            return (from u in db.Users
+                    where u.Id == (from t in db.Tokens 
+                        where t.AuthToken == token && t.ExpiredOn > DateTime.Now 
+                        select t.UserId).FirstOrDefault() 
+                            select u).FirstOrDefault();
         }
     }
 }

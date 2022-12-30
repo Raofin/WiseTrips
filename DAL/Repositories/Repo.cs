@@ -10,6 +10,7 @@ namespace DAL.Repositories
     public class Repo
     {
         protected WiseTripsEntities db;
+
         protected Repo()
         {
             db = new WiseTripsEntities();
