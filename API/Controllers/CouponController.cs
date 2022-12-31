@@ -10,7 +10,6 @@ using System.Web.Http.Cors;
 
 namespace API.Controllers
 {
-    [EnableCors("*", "*", "*")]
     public class CouponController : ApiController
     {
         [HttpGet]

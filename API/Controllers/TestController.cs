@@ -9,7 +9,6 @@ using BLL.Services;
 
 namespace API.Controllers
 {
-    [EnableCors("*", "*", "*")]
     public class TestController : ApiController
     {
         [HttpGet]

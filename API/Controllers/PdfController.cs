@@ -15,7 +15,6 @@ using iText.Html2pdf;
 namespace API.Controllers
 {
     /*[LoggedIn]*/
-    [EnableCors("*", "*", "*")]
     public class PdfController : ApiController
     {
         [HttpGet]

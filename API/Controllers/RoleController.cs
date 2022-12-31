@@ -10,7 +10,6 @@ using BLL.Services;
 
 namespace API.Controllers
 {
-    [EnableCors("*", "*", "*")]
     public class RoleController : ApiController
     {
         [HttpGet]

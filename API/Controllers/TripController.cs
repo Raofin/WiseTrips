@@ -13,7 +13,6 @@ using BLL.Services;
 namespace API.Controllers
 {
     [LoggedIn]
-    [EnableCors("*", "*", "*")]
     public class TripController : ApiController
     {
         [HttpGet]

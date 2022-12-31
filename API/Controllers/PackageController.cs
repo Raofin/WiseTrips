@@ -12,7 +12,6 @@ using API.Auth;
 namespace API.Controllers
 {
     [LoggedIn]
-    [EnableCors("*", "*", "*")]
     public class PackageController : ApiController
     {
         [HttpGet]
