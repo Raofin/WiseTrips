@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33027.164
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{F744644F-BE0C-4B59-8BCC-1ED4DC96C1B0}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{F
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "_AngularJS-ClientApp", "_AngularJS-ClientApp\", "{DC3FF2A7-84E4-4D81-931C-4B6A71B72DDD}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_61083"
 		Debug.AspNetCompiler.PhysicalPath = "_AngularJS-ClientApp\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_61083\"
