@@ -8,7 +8,7 @@ using System.Web.Http.Cors;
 using BLL.DTOs;
 using BLL.Services;
 
-namespace App.Controllers
+namespace API.Controllers
 {
     [EnableCors("*", "*", "*")]
     public class AuthController : ApiController

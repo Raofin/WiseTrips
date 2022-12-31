@@ -8,33 +8,33 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
-namespace App.Controllers
+namespace API.Controllers
 {
     [EnableCors("*", "*", "*")]
-    public class AdminController : ApiController
+    public class CouponController : ApiController
     {
         [HttpGet]
-        [Route("api/admin/users")]
+        [Route("api/coupons")]
         public HttpResponseMessage Get()
         {
-            var data = UserService.Get();
+            var data = CouponService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
-        [Route("api/admin/users/{id}")]
+        [Route("api/coupons/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var data = UserService.Get(id);
+            var data = CouponService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpPost]
-        [Route("api/admin/users/add")]
-        public HttpResponseMessage Add(UserDto user)
+        [Route("api/coupons/add")]
+        public HttpResponseMessage Add(CouponDto coupon)
         {
-            var data = UserService.Add(user);
-            
+            var data = CouponService.Add(coupon);
+
             if (data)
             {
                 return Request.CreateResponse(HttpStatusCode.OK, data);
@@ -42,19 +42,11 @@ namespace App.Controllers
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
         }
 
-        [HttpDelete]
-        [Route("api/admin/users/delete/{id}")]
-        public HttpResponseMessage Delete(int id)
-        {
-            UserService.Delete(id);
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
-
         [HttpPost]
-        [Route("api/admin/users/update")]
-        public HttpResponseMessage Update(UserDto user)
+        [Route("api/coupons/update")]
+        public HttpResponseMessage Update(CouponDto coupon)
         {
-            UserService.Update(user);
+            CouponService.Update(coupon);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }

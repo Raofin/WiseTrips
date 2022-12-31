@@ -7,12 +7,12 @@ using System.Net.Http;
 using System.Web.Hosting;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using App.Auth;
+using API.Auth;
 using BLL.DTOs;
 using BLL.Services;
 using iText.Html2pdf;
 
-namespace App.Controllers
+namespace API.Controllers
 {
     /*[LoggedIn]*/
     [EnableCors("*", "*", "*")]

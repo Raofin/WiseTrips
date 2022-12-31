@@ -6,11 +6,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using App.Auth;
+using API.Auth;
 using BLL.DTOs;
 using BLL.Services;
 
-namespace App.Controllers
+namespace API.Controllers
 {
     [LoggedIn]
     [EnableCors("*", "*", "*")]

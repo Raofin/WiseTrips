@@ -7,7 +7,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using BLL.Services;
 
-namespace App.Auth
+namespace API.Auth
 {
     public class LoggedIn : AuthorizationFilterAttribute
     {

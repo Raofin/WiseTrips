@@ -7,7 +7,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using BLL.Services;
 
-namespace App.Controllers
+namespace API.Controllers
 {
     [EnableCors("*", "*", "*")]
     public class TestController : ApiController

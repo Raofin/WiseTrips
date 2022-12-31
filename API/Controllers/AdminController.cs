@@ -8,32 +8,32 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
-namespace App.Controllers
+namespace API.Controllers
 {
     [EnableCors("*", "*", "*")]
-    public class CouponController : ApiController
+    public class AdminController : ApiController
     {
         [HttpGet]
-        [Route("api/coupons")]
+        [Route("api/admin/users")]
         public HttpResponseMessage Get()
         {
-            var data = CouponService.Get();
+            var data = UserService.Get();
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpGet]
-        [Route("api/coupons/{id}")]
+        [Route("api/admin/users/{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var data = CouponService.Get(id);
+            var data = UserService.Get(id);
             return Request.CreateResponse(HttpStatusCode.OK, data);
         }
 
         [HttpPost]
-        [Route("api/coupons/add")]
-        public HttpResponseMessage Add(CouponDto coupon)
+        [Route("api/admin/users/add")]
+        public HttpResponseMessage Add(UserDto user)
         {
-            var data = CouponService.Add(coupon);
+            var data = UserService.Add(user);
 
             if (data)
             {
@@ -42,11 +42,19 @@ namespace App.Controllers
             return Request.CreateResponse(HttpStatusCode.InternalServerError);
         }
 
-        [HttpPost]
-        [Route("api/coupons/update")]
-        public HttpResponseMessage Update(CouponDto coupon)
+        [HttpDelete]
+        [Route("api/admin/users/delete/{id}")]
+        public HttpResponseMessage Delete(int id)
         {
-            CouponService.Update(coupon);
+            UserService.Delete(id);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [Route("api/admin/users/update")]
+        public HttpResponseMessage Update(UserDto user)
+        {
+            UserService.Update(user);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
