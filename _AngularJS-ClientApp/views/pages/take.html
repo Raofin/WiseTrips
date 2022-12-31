@@ -1,0 +1,59 @@
+<h1 class="text-center">Take a Trip</h1>
+<form ng-submit="submit()">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-4 justify-content-center">
+            <label for="package">Package</label>
+            <select ng-model="formData.PackageId" class="form-control" id="package">
+                <option ng-value="undefined" selected>Select package...</option>
+                <option ng-repeat="p in package" value="{{p.Id}}">{{p.Name}}</option>
+            </select>
+            <label for="hotel">Hotel</label>
+            <select ng-model="formData.HotelId" class="form-control" id="hotel">
+                <option ng-value="undefined" selected>Select hotel...</option>
+                <option ng-repeat="h in hotel" value="{{h.Id}}">{{h.Name}}</option>
+            </select>
+
+            <div class="form-group">
+                <label for="persons">Persons</label>
+                <input type="number" class="form-control" id="persons" ng-model="formData.Persons" placeholder="Enter number of persons here">
+            </div>
+
+            <div class="form-group">
+                <label for="coupon">Coupon (optional)</label>
+                <input type="text" class="form-control" id="coupon" ng-model="formData.UsedCoupon" placeholder="Enter a coupon here">
+            </div>
+        </div>
+        <div class="col-md-4 cost-table" style="padding-left: 50px">
+            <!--        <img src="/Content/logo.svg" alt="Logo" height="400" />-->
+            <h1 class="text-center">Cost</h1>
+            <table>
+                <tr>
+                    <td>Package</td>
+                    <td id="package-cost">$0</td>
+                </tr>
+                <tr>
+                    <td>Hotel</td>
+                    <td id="hotel-cost">$0</td>
+                </tr>
+                <tr>
+                    <td>Persons</td>
+                    <td id="persons-cost">$0</td>
+                </tr>
+                <tr>
+                    <td>Coupon Discount</td>
+                    <td id="coupon-cost">$0</td>
+                </tr>
+                <tr>
+                    <td><b>Total Amount</b></td>
+                    <td><b id="total-amount">$0</b></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button type="submit" class="btn btn-success">Confirm & Print PDF</button>
+    </div>
+</form>
+
+

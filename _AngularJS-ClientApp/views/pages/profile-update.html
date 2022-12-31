@@ -1,0 +1,35 @@
+<div class="row d-flex justify-content-center">
+    <form ng-submit="submit()" class="col-md-5 user-profile">
+        <h1 class="text-center">User Profile</h1>
+        <table class="profile-table">
+            <tr>
+                <td><b>Username: </b></td>
+                <td><input type="text" class="form-control" id="username" ng-value="{{user.Username}}" ng-model="post.Username" placeholder="Enter your username here"></td>
+            </tr>
+            <tr>
+                <td><b>Email: </b></td>
+                <td>
+                    <input type="email" class="form-control" id="email" ng-value="{{user.Email}}" ng-model="post.Email" placeholder="Enter your email address here">
+                </td>
+            </tr>
+            <tr>
+                <td><b>Password: </b></td>
+                <td><input type="password" class="form-control" id="password" ng-value="{{user.Password}}" ng-model="post.Password" placeholder="Enter your password here">
+                </td>
+            </tr>
+            <tr>
+                <td><b>Gender: </b></td>
+                <td><select ng-model="post.sex" class="form-control" id="sex">
+                    <option ng-value="undefined" selected>Select your gender...</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                </select></td>
+            </tr>
+
+        </table>
+        <div class="text-center">
+            <button type="submit" class="btn btn-danger">Confirm</button>
+        </div>
+    </form>
+</div>

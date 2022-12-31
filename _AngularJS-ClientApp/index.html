@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <!--<base href="/" />-->
+    <meta charset="utf-8">
+    <script src="app/lib/angular.min.js"></script>
+    <script src="app/lib/angular.route.min.js"></script>
+    <script src="app/app.js"></script>
+
+    <title>Wise Trips</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="content/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="content/css/style.css">
+    <script src="content/js/custom.js"></script>
+
+</head>
+<body ng-app="myApp">
+<div class="container">
+    <div ng-include="'views/inc/header.html'"></div>
+    <div ng-view></div>
+    <!--      <div ng-include="'views/inc/footer.html'"></div>-->
+</div>
+</body>
+</html>
+
+<!--Template JS-->
+<script src="content/js/jquery.min.js"></script>
+<script src="content/js/bootstrap.bundle.min.js"></script>
+
+<!-- Add Services here -->
+<script src="app/services/ajax.js"></script>
+<script src="app/services/interCeptor.js"></script>
+
+<!-- Add Controllers here -->
+<!--<script src="app/controllers/home.js"></script>-->
+<script src="app/controllers/trips.js"></script>
+<script src="app/controllers/packages.js"></script>
+<script src="app/controllers/packages.js"></script>
+<script src="app/controllers/packageDetails.js"></script>
+<script src="app/controllers/login.js"></script>
+<script src="app/controllers/register.js"></script>
+<script src="app/controllers/logout.js"></script>
+<script src="app/controllers/take.js"></script>
+<script src="app/controllers/profile.js"></script>
+<script src="app/controllers/profileUpdate.js"></script>

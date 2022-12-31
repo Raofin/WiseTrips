@@ -1,0 +1,122 @@
+@font-face {
+    font-family: ALSHauss;
+    src: url('../fonts/ALSHauss-Regular.woff2') format('woff2'),
+    url('../fonts/ALSHauss-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: ALSHauss;
+    src: url('../fonts/ALSHauss-Bold.woff2') format('woff2'),
+    url('../fonts/ALSHauss-Bold.woff') format('woff');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('../fonts/Inter-Regular.woff2') format('woff2'),
+    url('../fonts/Inter-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: Inter;
+    src: url('../fonts/Inter-Bold.woff2') format('woff2'),
+    url('../fonts/Inter-Bold.woff') format('woff');
+    font-weight: bold;
+}
+
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-family: 'ALSHauss', sans-serif !important;
+    min-height: 100vh;
+    margin: 0;
+    position: relative;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6, b {
+    font-weight: bold;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists
+   will truncate terms that are too long to fit in the left column
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 500px;
+    margin-bottom: 20px;
+}
+
+.navbar-inverse .navbar-toggle:hover,
+.navbar-inverse .navbar-toggle:focus {
+    background-color: #777;
+    border-color: #fff
+}
+
+a, a:hover, a:focus, a:active {
+    text-decoration: none;
+}
+
+.body-content {
+    margin-bottom: 70px;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 10%;
+    text-align: center;
+}
+
+.time {
+    font-family: 'Inter', sans-serif;
+}
+
+.cost-table td {
+    font-size: 25px;
+}
+
+.cost-table td:nth-child(2) {
+    padding-left: 30px;
+    float: right;
+    width: 49%;
+}
+
+.user-profile {
+    font-size: 25px;
+}
+
+.user-profile td:nth-child(2) {
+    padding-left: 20px;
+}
+
+.user-profile td {
+    padding-bottom: 10px;
+}
+
+.user-profile input {
+    font-size: 20px;
+    margin-bottom: 0;
+}
+
+header {
+    padding-bottom: 30px;
+}

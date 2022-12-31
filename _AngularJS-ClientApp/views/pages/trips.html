@@ -1,0 +1,28 @@
+<div>
+    <div class="text-center">
+        <h1>Trips List</h1><br/>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>Id</th>
+            <th>User Id</th>
+            <th>Package Id</th>
+            <th>Hotel Id</th>
+            <th>Persons</th>
+            <th>Date</th>
+            <th>Coupon Id</th>
+            <th>Paid</th>
+        </tr>
+        <tr ng-repeat="t in trips">
+            <td>{{t.Id}}</td>
+            <td>{{t.UserId}}</td>
+            <td>{{t.PackageId}}</td>
+            <td>{{t.HotelId}}</td>
+            <td>{{t.Persons}}</td>
+            <td class="time">{{t.Date}}</td>
+            <td>{{t.UsedCoupon}}</td>
+            <td>${{t.Paid}}</td>
+        </tr>
+    </table>
+</div>

@@ -56,9 +56,9 @@ namespace API.Controllers
                 /*var filename = System.Guid.NewGuid().ToString().Substring(0, 5);*/
                 var filename = UserService.Get(trip.UserId).Username + "_" + trip.Date.ToString("yyyy-MM-dd_HH-mm-ss");
                 var pdfPath = mapPath + filename + ".pdf";
-                var serverPdfPath = "https://localhost:44373/PDF/" + filename + ".pdf";
+                var serverPdfPath = "https://localhost:44359/PDF/" + filename + ".pdf";
 
-                CreatePdf("https://localhost:44373", html, pdfPath);
+                CreatePdf("https://localhost:44359", html, pdfPath);
 
                 return serverPdfPath;
             } catch
