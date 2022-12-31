@@ -11,8 +11,8 @@ WiseTrips is a travel management system that offers a seamless journey-planning 
 - Admins possess overarching control, overseeing all system activities and management.
 
 ## Technologies
-- **Backend:** ASP.NET MVC, Entity Framework, SOLID Principles, API Token Based Authentication
-- **Frontend:** AngularJS, Bootstrap
+- **Backend:** ASP.NET, Entity Framework, SOLID Principles, API Token Based Authentication
+- **Frontend:** AngularJS, Bootstrap 5
 - **Database:** Microsoft SQL Server
 
 ## Schema Diagram
@@ -26,5 +26,4 @@ WiseTrips is a travel management system that offers a seamless journey-planning 
 <img src="/Readme_md/5.png">
 
 ## License
-This project is licensed under the [MIT License](LICENSE).
-
+This project is licensed under the [BSD-3-Clause license](LICENSE).
