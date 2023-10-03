@@ -5,56 +5,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class AdminController : ApiController
+    public class AdminController : ControllerBase
     {
         [HttpGet]
         [Route("api/admin/users")]
-        public HttpResponseMessage Get()
+        public IActionResult Get()
         {
             var data = UserService.Get();
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Ok(data);
         }
 
         [HttpGet]
         [Route("api/admin/users/{id}")]
-        public HttpResponseMessage Get(int id)
+        public IActionResult Get(int id)
         {
             var data = UserService.Get(id);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Ok(data);
         }
 
         [HttpPost]
         [Route("api/admin/users/add")]
-        public HttpResponseMessage Add(UserDto user)
+        public IActionResult Add(UserDto user)
         {
             var data = UserService.Add(user);
 
             if (data)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, data);
+                return Ok(data);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            return Ok(HttpStatusCode.InternalServerError);
         }
 
         [HttpDelete]
         [Route("api/admin/users/delete/{id}")]
-        public HttpResponseMessage Delete(int id)
+        public IActionResult Delete(int id)
         {
             UserService.Delete(id);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Ok();
         }
 
         [HttpPost]
         [Route("api/admin/users/update")]
-        public HttpResponseMessage Update(UserDto user)
+        public IActionResult Update(UserDto user)
         {
             UserService.Update(user);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Ok();
         }
     }
 }

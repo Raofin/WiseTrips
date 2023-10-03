@@ -3,43 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Cors;
 using BLL.DTOs;
 using BLL.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class HotelController : ApiController
+    [Route("api/hotels")]
+    public class HotelController : ControllerBase
     {
         [HttpGet]
-        [Route("api/hotels")]
-        public HttpResponseMessage GetHotels()
+        public IActionResult GetHotels()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, HotelService.GetAll());
+            return Ok(HotelService.GetAll());
         }
 
-        [HttpGet]
-        [Route("api/hotels/{id}")]
-        public HttpResponseMessage GetHotel(int id)
+        [HttpGet("{id}")]
+        public IActionResult GetHotel(int id)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, HotelService.Get(id));
+            return Ok(HotelService.Get(id));
         }
 
-        [HttpPost]
-        [Route("api/hotels/add")]
-        public HttpResponseMessage AddHotel(HotelDto hotelDto)
+        [HttpPost("add")]
+        public IActionResult AddHotel(HotelDto hotelDto)
         {
             var hotel = HotelService.Add(hotelDto);
-            return Request.CreateResponse(HttpStatusCode.OK, hotel);
+            return Ok(hotel);
         }
 
-        [HttpPost]
-        [Route("api/hotels/update")]
-        public HttpResponseMessage UpdateHotel(HotelDto hotelDto)
+        [HttpPost("update")]
+        public IActionResult UpdateHotel(HotelDto hotelDto)
         {
             var hotel = HotelService.Update(hotelDto);
-            return Request.CreateResponse(HttpStatusCode.OK, hotel);
+            return Ok(hotel);
         }
     }
 }

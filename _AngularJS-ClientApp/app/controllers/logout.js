@@ -1,7 +1,7 @@
 app.controller("logout", function ($http, $window) {
 
     if(localStorage.getItem('token') != null) {
-        $http.get("https://localhost:44359/api/logout")
+        $http.get("https://localhost:7017/api/logout")
             .then(function (response) {
                 localStorage.removeItem('token');
             }), function (error) {

@@ -3,39 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Cors;
+using Azure.Core;
 using BLL.DTOs;
 using BLL.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class AuthController : ApiController
+    [Route("api")]
+    public class AuthController : ControllerBase
     {
-        [HttpPost]
-        [Route("api/login")]
-        public HttpResponseMessage Login(LoginDto loginDto)
+        [HttpPost("login")]
+        public IActionResult Login(LoginDto loginDto)
         {
             var data = AuthService.Authenticate(loginDto.Username, loginDto.Password);
 
             if (data != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, data);
+                return Ok(data);
             }
-            return Request.CreateResponse(HttpStatusCode.NotFound);
+            return NotFound();
         }
 
-        [HttpGet]
-        [Route("api/logout")]
-        public HttpResponseMessage Logout()
+        [HttpGet("logout")]
+        public IActionResult Logout()
         {
-            var authToken = Request.Headers.Authorization.ToString();
+            var authToken = Request.Headers["Authorization"].ToString();
 
             if (AuthService.Logout(authToken))
             {
-                return Request.CreateErrorResponse(HttpStatusCode.OK, "Successfully logged out.");
+                return Ok("Successfully logged out.");
             }
-            return Request.CreateResponse(HttpStatusCode.BadRequest, "Invalid token");
+            return BadRequest("Invalid token");
         }
     }
 }

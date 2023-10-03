@@ -5,61 +5,56 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class AgencyController : ApiController
+    [Route("api/agencies")]
+    public class AgencyController : ControllerBase
     {
         [HttpGet]
-        [Route("api/agencies")]
-        public HttpResponseMessage Get()
+        public IActionResult Get()
         {
             var data = AgencyService.Get();
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Ok(data);
         }
 
-        [HttpGet]
-        [Route("api/agencies/{id}")]
-        public HttpResponseMessage Get(int id)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
             var data = AgencyService.Get(id);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Ok(data);
         }
 
-        [HttpPost]
-        [Route("api/agencies/add")]
-        public HttpResponseMessage Add(AgencyDto agency)
+        [HttpPost("add")]
+        public IActionResult Add(AgencyDto agency)
         {
             var data = AgencyService.Add(agency);
 
             if (data != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, data);
+                return Ok(data);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
-        [HttpGet]
-        [Route("api/agencies/update/{id}")]
-        public HttpResponseMessage Update(AgencyDto agency)
+        [HttpPost("update/{id}")]
+        public IActionResult Update(int id, AgencyDto agency)
         {
             AgencyService.Update(agency);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Ok();
         }
 
-        [HttpGet]
-        [Route("api/agencies/delete/{id}")]
-        public HttpResponseMessage Delete(int id)
+        [HttpPost("delete/{id}")]
+        public IActionResult Delete(int id)
         {
             var data = AgencyService.Delete(id);
 
             if (data != false)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "deleted");
+                return Ok("deleted");
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            return StatusCode((int)HttpStatusCode.InternalServerError);
         }
     }
 }

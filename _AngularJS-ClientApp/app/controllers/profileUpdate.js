@@ -1,7 +1,7 @@
 app.controller("profileUpdate", function (ajax, $scope, $http, $window) {
 
     if (localStorage.getItem('token') != null) {
-        ajax.get("https://localhost:44359/api/logged-in-user", success);
+        ajax.get("https://localhost:7017/api/logged-in-user", success);
 
         function success(response) {
             $scope.user = response.data;
@@ -11,7 +11,7 @@ app.controller("profileUpdate", function (ajax, $scope, $http, $window) {
         }
 
         $scope.submit = function () {
-            ajax.post("https://localhost:44359/api/update", $scope.post);
+            ajax.post("https://localhost:7017/api/update", $scope.post);
             $window.location.href = '#!/profile';
         }
 

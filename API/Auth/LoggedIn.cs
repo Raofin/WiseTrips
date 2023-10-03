@@ -3,30 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
-using System.Web.Http.Controllers;
-using System.Web.Http.Filters;
 using BLL.Services;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Auth
 {
-    public class LoggedIn : AuthorizationFilterAttribute
+    public class LoggedInAttribute : TypeFilterAttribute
     {
-        public override void OnAuthorization(HttpActionContext actionContext)
+        public LoggedInAttribute() : base(typeof(LoggedInFilter)) { }
+    }
+
+    public class LoggedInFilter : IAuthorizationFilter
+    {
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var token = actionContext.Request.Headers.Authorization;
+            var token = context.HttpContext.Request.Headers["Authorization"];
 
-            if (token == null)
+            if (string.IsNullOrEmpty(token))
             {
-                actionContext.Response =
-                    actionContext.Request.CreateResponse(System.Net.HttpStatusCode.Unauthorized, "No token supplied");
+                context.Result = new UnauthorizedObjectResult("No token supplied");
             }
-            else if (!AuthService.TokenValidity(token.ToString()))
+            else if (!AuthService.TokenValidity(token))
             {
-                actionContext.Response =
-                    actionContext.Request.CreateResponse(System.Net.HttpStatusCode.Unauthorized, "Supplied token is invalid or expired");
+                context.Result = new UnauthorizedObjectResult("Supplied token is invalid or expired");
             }
-
-            base.OnAuthorization(actionContext);
         }
     }
 }

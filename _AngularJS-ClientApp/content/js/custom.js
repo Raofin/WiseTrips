@@ -1,7 +1,7 @@
 function getUser(id) {
     $.ajax({
         type: 'GET',
-        url: 'https://localhost:44359/api/users/' + id,
+        url: 'https://localhost:7017/api/users/' + id,
         success: function (response) {
             console.log(response);
             return response;

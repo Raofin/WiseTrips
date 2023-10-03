@@ -3,52 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Cors;
 using API.Auth;
+using Azure.Core;
 using BLL.DTOs;
 using BLL.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class UserController : ApiController
+    [Route("api/users")]
+    public class UserController : ControllerBase
     {
         [HttpGet]
-        [Route("api/users")]
-        public HttpResponseMessage GetUsers()
+        public IActionResult GetUsers()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, UserService.Get());
+            return Ok(UserService.Get());
         }
 
-        [HttpGet]
-        [Route("api/users/{id}")]
-        public HttpResponseMessage GetUser(int id)
+        [HttpGet("{id}")]
+        public IActionResult GetUser(int id)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, UserService.Get(id));
+            return Ok(UserService.Get(id));
         }
 
-        [HttpGet]
-        [Route("api/logged-in-user")]
-        public HttpResponseMessage GetUser()
+        [HttpGet("logged-in-user")]
+        public IActionResult GetLoggedInUser()
         {
-            var user = UserService.GetByToken(Request.Headers.Authorization.ToString());
-            return Request.CreateResponse(HttpStatusCode.OK, user);
+            var user = UserService.GetByToken(Request.Headers["Authorization"].ToString());
+            return Ok(user);
         }
 
-        [HttpPost]
-        [Route("api/register")]
-        public HttpResponseMessage AddUser(UserDto userDto, string role)
+        [HttpPost("register")]
+        public IActionResult AddUser(UserDto userDto, string role)
         {
             var user = UserService.Register(userDto, role);
-            return Request.CreateResponse(HttpStatusCode.OK, user);
+            return Ok(user);
         }
 
-        [HttpPost]
-        [Route("api/update")]
-        public HttpResponseMessage UpdateUser(UserDto userDto)
+        [HttpPost("update")]
+        public IActionResult UpdateUser(UserDto userDto)
         {
             UserService.Update(userDto);
-            return Request.CreateResponse(HttpStatusCode.OK, true);
+            return Ok(true);
         }
     }
 }

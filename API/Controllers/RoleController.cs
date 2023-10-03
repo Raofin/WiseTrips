@@ -3,43 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Cors;
 using BLL.DTOs;
 using BLL.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class RoleController : ApiController
+    [Route("api/roles")]
+    public class RoleController : ControllerBase
     {
         [HttpGet]
-        [Route("api/roles")]
-        public HttpResponseMessage GetRoles()
+        public IActionResult GetRoles()
         {
-            return Request.CreateResponse(HttpStatusCode.OK, RoleService.GetAll());
+            return Ok(RoleService.GetAll());
         }
 
-        [HttpGet]
-        [Route("api/roles/{id}")]
-        public HttpResponseMessage GetRole(int id)
+        [HttpGet("{id}")]
+        public IActionResult GetRole(int id)
         {
-            return Request.CreateResponse(HttpStatusCode.OK, RoleService.Get(id));
+            return Ok(RoleService.Get(id));
         }
 
-        [HttpPost]
-        [Route("api/roles/add")]
-        public HttpResponseMessage AddRole(RoleDto roleDto)
+        [HttpPost("add")]
+        public IActionResult AddRole(RoleDto roleDto)
         {
             var role = RoleService.Add(roleDto);
-            return Request.CreateResponse(HttpStatusCode.OK, role);
+            return Ok(role);
         }
 
-        [HttpPost]
-        [Route("api/roles/update")]
-        public HttpResponseMessage UpdateRole(RoleDto roleDto)
+        [HttpPost("update")]
+        public IActionResult UpdateRole(RoleDto roleDto)
         {
             var role = RoleService.Update(roleDto);
-            return Request.CreateResponse(HttpStatusCode.OK, role);
+            return Ok(role);
         }
     }
 }

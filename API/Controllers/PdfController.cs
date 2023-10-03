@@ -4,25 +4,31 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Hosting;
-using System.Web.Http;
-using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Hosting;
 using API.Auth;
 using BLL.DTOs;
 using BLL.Services;
 using iText.Html2pdf;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     /*[LoggedIn]*/
-    public class PdfController : ApiController
+    public class PdfController : ControllerBase
     {
+        private readonly IWebHostEnvironment _hostingEnvironment;
+
+        public PdfController(IWebHostEnvironment hostingEnvironment)
+        {
+            _hostingEnvironment = hostingEnvironment;
+        }
+
         [HttpGet]
         [Route("api/pdf")]
-        public HttpResponseMessage Pdf()
+        public IActionResult Pdf()
         {
             var pdf = GeneratePdf();
-            return Request.CreateErrorResponse(HttpStatusCode.OK, pdf);
+            return Ok(pdf);
         }
 
         public string GeneratePdf()
@@ -52,13 +58,15 @@ namespace API.Controllers
                         </body>
                         </html>";
 
-                var mapPath = HostingEnvironment.MapPath("~\\PDF\\");
+                var webRootPath = _hostingEnvironment.WebRootPath;
+                var mapPath = Path.Combine(webRootPath, "PDF");
+                //var mapPath = HostingEnvironment.MapPath("~\\PDF\\");
                 /*var filename = System.Guid.NewGuid().ToString().Substring(0, 5);*/
                 var filename = UserService.Get(trip.UserId).Username + "_" + trip.Date.ToString("yyyy-MM-dd_HH-mm-ss");
                 var pdfPath = mapPath + filename + ".pdf";
-                var serverPdfPath = "https://localhost:44359/PDF/" + filename + ".pdf";
+                var serverPdfPath = "https://localhost:7017/PDF/" + filename + ".pdf";
 
-                CreatePdf("https://localhost:44359", html, pdfPath);
+                CreatePdf("https://localhost:7017", html, pdfPath);
 
                 return serverPdfPath;
             } catch

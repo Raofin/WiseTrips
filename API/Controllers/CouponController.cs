@@ -1,52 +1,48 @@
 ﻿using BLL.DTOs;
 using BLL.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace API.Controllers
 {
-    public class CouponController : ApiController
+    [Route("api/coupons")]
+    public class CouponController : ControllerBase
     {
         [HttpGet]
-        [Route("api/coupons")]
-        public HttpResponseMessage Get()
+        public IActionResult Get()
         {
             var data = CouponService.Get();
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Ok(data);
         }
 
-        [HttpGet]
-        [Route("api/coupons/{id}")]
-        public HttpResponseMessage Get(int id)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
             var data = CouponService.Get(id);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Ok(data);
         }
 
-        [HttpPost]
-        [Route("api/coupons/add")]
-        public HttpResponseMessage Add(CouponDto coupon)
+        [HttpPost("add")]
+        public IActionResult Add(CouponDto coupon)
         {
             var data = CouponService.Add(coupon);
 
             if (data)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, data);
+                return Ok(data);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
-        [HttpPost]
-        [Route("api/coupons/update")]
-        public HttpResponseMessage Update(CouponDto coupon)
+        [HttpPost("update")]
+        public IActionResult Update(CouponDto coupon)
         {
             CouponService.Update(coupon);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Ok();
         }
     }
 }

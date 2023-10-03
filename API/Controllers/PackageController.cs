@@ -5,63 +5,58 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Cors;
 using API.Auth;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Route("api/packages")]
     [LoggedIn]
-    public class PackageController : ApiController
+    public class PackageController : ControllerBase
     {
         [HttpGet]
-        [Route("api/packages")]
-        public HttpResponseMessage Get()
+        public IActionResult Get()
         {
             var data = PackageService.Get();
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Ok(data);
         }
 
-        [HttpGet]
-        [Route("api/package/{id}")]
-        public HttpResponseMessage Get(int id)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
             var data = PackageService.Get(id);
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Ok(data);
         }
 
-        [HttpPost]
-        [Route("api/packages/add")]
-        public HttpResponseMessage Add(PackageDto package)
+        [HttpPost("add")]
+        public IActionResult Add(PackageDto package)
         {
             var data = PackageService.Add(package);
 
             if (data != null)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, data);
+                return Ok(data);
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
-        [HttpGet]
-        [Route("api/packages/update/{id}")]
-        public HttpResponseMessage Update(PackageDto package)
+        [HttpPost("update/{id}")]
+        public IActionResult Update(int id, PackageDto package)
         {
             PackageService.Update(package);
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Ok();
         }
 
-        [HttpGet]
-        [Route("api/packages/delete/{id}")]
-        public HttpResponseMessage Delete(int id)
+        [HttpGet("delete/{id}")]
+        public IActionResult Delete(int id)
         {
             var data = PackageService.Delete(id);
 
             if (data)
             {
-                return Request.CreateResponse(HttpStatusCode.OK, "deleted");
+                return Ok("deleted");
             }
-            return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            return StatusCode((int)HttpStatusCode.InternalServerError);
         }
     }
 }

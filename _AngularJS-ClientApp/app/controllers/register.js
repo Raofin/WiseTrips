@@ -2,7 +2,7 @@ app.controller("register", function ($scope, ajax, $window) {
 
     if (localStorage.getItem('token') == null) {
         $scope.submit = function () {
-            ajax.post("https://localhost:44359/api/register?role=" + $scope.accountType, $scope.post, success, error);
+            ajax.post("https://localhost:7017/api/register?role=" + $scope.accountType, $scope.post, success, error);
         }
 
         function success(response) {

@@ -1,16 +1,16 @@
 app.controller("take", function ($scope, ajax, $window, $http, $routeParams) {
 
     if (localStorage.getItem('token') != null) {
-        $http.get("https://localhost:44359/api/packages/")
+        $http.get("https://localhost:7017/api/packages/")
             .then(resp => $scope.package = resp.data);
 
-        $http.get("https://localhost:44359/api/hotels/")
+        $http.get("https://localhost:7017/api/hotels/")
             .then(resp => $scope.hotel = resp.data);
 
         $scope.submit = () => {
             console.log($scope.formData);
-            ajax.post("https://localhost:44359/api/trip/add", $scope.formData);
-            ajax.get("https://localhost:44359/api/pdf", success, error);
+            ajax.post("https://localhost:7017/api/trip/add", $scope.formData);
+            ajax.get("https://localhost:7017/api/pdf", success, error);
         }
 
         function success(response) {
@@ -25,7 +25,7 @@ app.controller("take", function ($scope, ajax, $window, $http, $routeParams) {
 
     $('#package').change(function () {
         if (this.value != undefined) {
-            ajax.get("https://localhost:44359/api/package/" + this.value, success, error);
+            ajax.get("https://localhost:7017/api/package/" + this.value, success, error);
         }
 
         function success(response) {
@@ -37,7 +37,7 @@ app.controller("take", function ($scope, ajax, $window, $http, $routeParams) {
 
     $('#hotel').change(function () {
         if (this.value != undefined) {
-            ajax.get("https://localhost:44359/api/hotels/" + this.value, success, error);
+            ajax.get("https://localhost:7017/api/hotels/" + this.value, success, error);
         }
 
         function success(response) {

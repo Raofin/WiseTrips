@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Cors;
 using BLL.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    public class TestController : ApiController
+    public class TestController : ControllerBase
     {
-        [HttpGet]
-        [Route("")]
-        public HttpResponseMessage Test()
+        [HttpGet("")]
+        public IActionResult Test()
         {
             var data = UserService.Get();
-            return Request.CreateResponse(HttpStatusCode.OK, data);
+            return Ok(data);
         }
     }
 }
