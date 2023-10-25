@@ -1,48 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DAL.Entity;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories
+namespace DAL.Repositories;
+
+public class TripRepo : ITripRepo
 {
-    public class TripRepo : ITripRepo
+    private readonly WiseTripsContext _context;
+
+    public TripRepo(WiseTripsContext context)
     {
-        private readonly WiseTripsContext _context;
+        _context = context;
+    }
 
-        public TripRepo(WiseTripsContext context)
-        {
-            _context = context;
-        }
+    public async Task<List<Trip>> GetAsync()
+    {
+        return await _context.Trips.ToListAsync();
+    }
 
-        public List<Trip> Get()
-        {
-            return _context.Trips.ToList();
-        }
+    public async Task<Trip> GetAsync(int id)
+    {
+        return await _context.Trips.FindAsync(id);
+    }
 
-        public Trip Get(int id)
-        {
-            return _context.Trips.Find(id);
-        }
+    public async Task<bool> AddAsync(Trip obj)
+    {
+        _context.Trips.Add(obj);
+        return await _context.SaveChangesAsync() > 0;
+    }
 
-        public bool Add(Trip obj)
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var trip = await _context.Trips.FindAsync(id);
+        if (trip != null)
         {
-            _context.Trips.Add(obj);
-            return _context.SaveChanges() > 0;
+            _context.Trips.Remove(trip);
+            return await _context.SaveChangesAsync() > 0;
         }
+        return false;
+    }
 
-        public bool Delete(int id)
+    public async Task<bool> UpdateAsync(Trip obj)
+    {
+        var existingTrip = await GetAsync(obj.Id);
+        if (existingTrip != null)
         {
-            throw new NotImplementedException();
+            _context.Entry(existingTrip).CurrentValues.SetValues(obj);
+            return await _context.SaveChangesAsync() > 0;
         }
-
-        public bool Update(Trip obj)
-        {
-            var ext = Get(obj.Id);
-            _context.Entry(ext).CurrentValues.SetValues(obj);
-            return _context.SaveChanges() > 0;
-        }
+        return false;
     }
 }

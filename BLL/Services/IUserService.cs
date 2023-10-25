@@ -1,12 +1,10 @@
 using BLL.DTOs;
-using System.Collections.Generic;
 
-namespace BLL.Services
+namespace BLL.Services;
+
+public interface IUserService : ICrudService<UserDto>
 {
-    public interface IUserService : ICrudService<UserDto>
-    {
-        UserDto Get(string username);
-        UserDto GetByToken(string token);
-        bool Register(UserDto userDto, string roleName);
-    }
+    Task<UserDto> GetAsync(string username);
+    Task<UserDto> GetByTokenAsync(string token);
+    Task<bool> RegisterAsync(UserDto userDto, string roleName);
 }

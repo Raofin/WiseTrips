@@ -1,63 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BLL.DTOs;
 using DAL;
 using DAL.Entity;
 using DAL.Interfaces;
 
-namespace BLL.Services
+namespace BLL.Services;
+
+public class TripService : ITripService
 {
-    public class TripService
+    private readonly IMapper _mapper;
+    private readonly ITripRepo _tripRepo;
+
+    public TripService(IMapper mapper, DataAccessFactory dataAccessFactory)
     {
-       /* private readonly IMapper _mapper;
-        private readonly ITripRepo _tripRepo;
+        _mapper = mapper;
+        _tripRepo = dataAccessFactory.TripDataAccess();
+    }
 
-        public TripService(IMapper mapper, DataAccessFactory dataAccessFactory)
-        {
-            _mapper = mapper;
-            _tripRepo = dataAccessFactory.TripDataAccess();
-        }
+    public async Task<List<TripDto>> GetAllAsync()
+    {
+        var data = await _tripRepo.GetAsync();
+        return _mapper.Map<List<TripDto>>(data);
+    }
 
-        private static Mapper mapper = new Mapper(
-            new MapperConfiguration(c => {
-                c.CreateMap<Trip, TripDto>();
-                c.CreateMap<TripDto, Trip>();
-            })
-        );
+    public Task<List<TripDto>> GetAsync()
+    {
+        throw new NotImplementedException();
+    }
 
-        public List<TripDto> GetAll()
-        {
-            var data = _tripRepo.Get();
-            return mapper.Map<List<TripDto>>(data);
-        }
+    public async Task<TripDto> GetAsync(int id)
+    {
+        var data = await _tripRepo.GetAsync(id);
+        return _mapper.Map<TripDto>(data);
+    }
 
-        public TripDto Get(int id)
-        {
-            var data = _tripRepo.Get(id);
-            return mapper.Map<TripDto>(data);
-        }
+    public Task UpdateAsync(TripDto data)
+    {
+        throw new NotImplementedException();
+    }
 
-        public bool Add(TripDto tripDto)
-        {
-            *//*var trip = mapper.Map<Trip>(tripDto);
+    public Task<bool> DeleteAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 
-            var discount = trip.UsedCoupon != null 
-                ? CouponService.Get((int)trip.UsedCoupon).Discount 
-                : 0;
+    public async Task<bool> AddAsync(TripDto tripDto)
+    {
+        /*var trip = mapper.Map<Trip>(tripDto);
 
-            // amount = package price + (hotel price * persons)
-            var amount = PackageService.Get(trip.PackageId).Price + HotelService.Get(trip.HotelId).Price * trip.Persons + discount;
-            
-            // discount calculation
-            trip.Paid = amount - (amount * discount / 100);
-            
-            trip.Date = DateTime.Now;
-            return DataAccessFactory.TripDataAccess().Add(trip);*//*
-            throw new NotImplementedException();
-        }*/
+        var discount = trip.UsedCoupon != null
+            ? CouponService.Get((int)trip.UsedCoupon).Discount
+            : 0;
+
+        // amount = package price + (hotel price * persons)
+        var amount = PackageService.Get(trip.PackageId).Price + HotelService.Get(trip.HotelId).Price * trip.Persons + discount;
+
+        // discount calculation
+        trip.Paid = amount - (amount * discount / 100);
+
+        trip.Date = DateTime.Now;
+        return DataAccessFactory.TripDataAccess().Add(trip);*/
+
+        throw new NotImplementedException();
     }
 }

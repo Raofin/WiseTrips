@@ -6,7 +6,7 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class AgencyService
+    public class AgencyService : IAgencyService
     {
         private readonly IMapper _mapper;
         private readonly IAgencyRepo _agencyRepo;
@@ -17,45 +17,33 @@ namespace BLL.Services
             _agencyRepo = dataAccessFactory.AgencyDataAccess();
         }
 
-        public AgencyDto Add(AgencyDto data)
+        public async Task<bool> AddAsync(AgencyDto data)
         {
             var agency = _mapper.Map<Agency>(data);
-            var ret = _agencyRepo.Add(agency);
-
-            return _mapper.Map<AgencyDto>(ret);
+            return await _agencyRepo.AddAsync(agency);
         }
 
-        public List<AgencyDto> Get()
+        public async Task<List<AgencyDto>> GetAsync()
         {
-            var data = _agencyRepo.Get();
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Agency, AgencyDto>());
-            var mapper = new Mapper(config);
-            return mapper.Map<List<AgencyDto>>(data);
+            var data = await _agencyRepo.GetAsync();
+            return _mapper.Map<List<AgencyDto>>(data);
         }
 
-        public AgencyDto Get(int id)
+        public async Task<AgencyDto> GetAsync(int id)
         {
-            var data = _agencyRepo.Get(id);
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<Agency, AgencyDto>());
-            var mapper = new Mapper(config);
-            var user = mapper.Map<AgencyDto>(data);
-            return user;
+            var data = await _agencyRepo.GetAsync(id);
+            return _mapper.Map<AgencyDto>(data);
         }
 
-        public void Update(AgencyDto data)
+        public async Task UpdateAsync(AgencyDto data)
         {
-            var config = new MapperConfiguration(c => {
-                c.CreateMap<AgencyDto, Agency>();
-                c.CreateMap<Agency, AgencyDto>();
-            });
-            var mapper = new Mapper(config);
-            var agency = mapper.Map<Agency>(data);
-            _agencyRepo.Update(agency);
+            var agency = _mapper.Map<Agency>(data);
+            await _agencyRepo.UpdateAsync(agency);
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            return _agencyRepo.Delete(id);
+            return await _agencyRepo.DeleteAsync(id);
         }
     }
 }

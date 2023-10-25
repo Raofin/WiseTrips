@@ -1,43 +1,53 @@
 ﻿using DAL.Entity;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories
+namespace DAL.Repositories;
+
+public class HotelRepo : IHotelRepo
 {
-    public class HotelRepo : IHotelRepo
+    private readonly WiseTripsContext _context;
+
+    public HotelRepo(WiseTripsContext context)
     {
-        private readonly WiseTripsContext _context;
+        _context = context;
+    }
 
-        public HotelRepo(WiseTripsContext context)
-        {
-            _context = context;
-        }
+    public async Task<List<Hotel>> GetAsync()
+    {
+        return await _context.Hotels.ToListAsync();
+    }
 
-        public List<Hotel> Get()
-        {
-            return _context.Hotels.ToList();
-        }
+    public async Task<Hotel> GetAsync(int id)
+    {
+        return await _context.Hotels.FindAsync(id);
+    }
 
-        public Hotel Get(int id)
-        {
-            return _context.Hotels.Find(id);
-        }
+    public async Task<bool> AddAsync(Hotel obj)
+    {
+        _context.Hotels.Add(obj);
+        return await _context.SaveChangesAsync() > 0;
+    }
 
-        public bool Add(Hotel obj)
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var hotel = await GetAsync(id);
+        if (hotel != null)
         {
-            _context.Hotels.Add(obj);
-            return _context.SaveChanges() > 0;
+            _context.Hotels.Remove(hotel);
+            return await _context.SaveChangesAsync() > 0;
         }
+        return false;
+    }
 
-        public bool Delete(int id)
+    public async Task<bool> UpdateAsync(Hotel obj)
+    {
+        var existingHotel = await GetAsync(obj.Id);
+        if (existingHotel != null)
         {
-            throw new NotImplementedException();
+            _context.Entry(existingHotel).CurrentValues.SetValues(obj);
+            return await _context.SaveChangesAsync() > 0;
         }
-
-        public bool Update(Hotel obj)
-        {
-            var ext = Get(obj.Id);
-            _context.Entry(ext).CurrentValues.SetValues(obj);
-            return _context.SaveChanges() > 0;
-        }
+        return false;
     }
 }

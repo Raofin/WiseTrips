@@ -2,4 +2,6 @@
 
 namespace DAL.Interfaces;
 
-public interface IAgencyRepo : ICrudRepo<Agency, int, Agency> { }
+public interface IAgencyRepo : ICrudRepo<Agency, int, bool>
+{
+}

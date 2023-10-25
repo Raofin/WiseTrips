@@ -1,15 +1,15 @@
 ﻿namespace DAL.Interfaces
 {
-    public interface ICrudRepo<TClass, in TId, out TResult>
+    public interface ICrudRepo<TClass, in TId, TResult>
     {
-        List<TClass> Get();
+        Task<List<TClass>> GetAsync();
 
-        TClass Get(TId id);
+        Task<TClass> GetAsync(TId id);
 
-        TResult Add(TClass obj);
+        Task<TResult> AddAsync(TClass obj);
 
-        bool Delete(TId id);
+        Task<bool> DeleteAsync(TId id);
 
-        TResult Update(TClass obj);
+        Task<TResult> UpdateAsync(TClass obj);
     }
 }

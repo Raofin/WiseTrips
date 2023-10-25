@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using API.Auth;
-using Azure.Core;
-using BLL.DTOs;
+﻿using BLL.DTOs;
 using BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,35 +15,46 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-            return Ok(_userService.Get());
+            var users = await _userService.GetAsync();
+            return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUser(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
-            return Ok(_userService.Get(id));
+            var user = await _userService.GetAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
         }
 
         [HttpGet("logged-in-user")]
-        public IActionResult GetLoggedInUser()
+        public async Task<IActionResult> GetLoggedInUser()
         {
-            var user = _userService.GetByToken(Request.Headers["Authorization"].ToString());
+            var authorizationHeader = Request.Headers["Authorization"].ToString();
+            var user = await _userService.GetByTokenAsync(authorizationHeader);
             return Ok(user);
         }
 
         [HttpPost("register")]
-        public IActionResult AddUser(UserDto userDto, string role)
+        public async Task<IActionResult> AddUser([FromBody] UserDto userDto, [FromQuery] string role)
         {
-            var user = _userService.Register(userDto, role);
+            var user = await _userService.RegisterAsync(userDto, role);
+            if (user == null)
+            {
+                return BadRequest();
+            }
             return Ok(user);
         }
 
         [HttpPost("update")]
-        public IActionResult UpdateUser(UserDto userDto)
+        public async Task<IActionResult> UpdateUser([FromBody] UserDto userDto)
         {
-            _userService.Update(userDto);
+            await _userService.UpdateAsync(userDto);
             return Ok(true);
         }
     }

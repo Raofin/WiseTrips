@@ -1,40 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using Azure.Core;
+﻿using System.Threading.Tasks;
 using BLL.DTOs;
 using BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api")]
+public class AuthController : ControllerBase
 {
-    [Route("api")]
-    public class AuthController : ControllerBase
+    private readonly IAuthService _authService;
+
+    public AuthController(IAuthService authService)
     {
-        /*[HttpPost("login")]
-        public IActionResult Login(LoginDto loginDto)
-        {
-            var data = AuthService.Authenticate(loginDto.Username, loginDto.Password);
+        _authService = authService;
+    }
 
-            if (data != null)
-            {
-                return Ok(data);
-            }
-            return NotFound();
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+    {
+        var token = await _authService.AuthenticateAsync(loginDto.Username, loginDto.Password);
+        if (token != null)
+        {
+            return Ok(token);
         }
+        return NotFound();
+    }
 
-        [HttpGet("logout")]
-        public IActionResult Logout()
+    [HttpGet("logout")]
+    public async Task<IActionResult> LogoutAsync()
+    {
+        var authToken = Request.Headers["Authorization"].ToString();
+
+        if (await _authService.LogoutAsync(authToken))
         {
-            var authToken = Request.Headers["Authorization"].ToString();
-
-            if (AuthService.Logout(authToken))
-            {
-                return Ok("Successfully logged out.");
-            }
-            return BadRequest("Invalid token");
-        }*/
+            return Ok("Successfully logged out.");
+        }
+        return BadRequest("Invalid token");
     }
 }

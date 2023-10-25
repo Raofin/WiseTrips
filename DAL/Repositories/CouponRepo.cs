@@ -1,49 +1,53 @@
 ﻿using DAL.Entity;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories
+namespace DAL.Repositories;
+
+public class CouponRepo : ICouponRepo
 {
-    public class CouponRepo : ICouponRepo
+    private readonly WiseTripsContext _context;
+
+    public CouponRepo(WiseTripsContext context)
     {
-        private readonly WiseTripsContext _context;
+        _context = context;
+    }
 
-        public CouponRepo(WiseTripsContext context)
-        {
-            _context = context;
-        }
+    public async Task<bool> AddAsync(Coupon obj)
+    {
+        _context.Coupons.Add(obj);
+        return await _context.SaveChangesAsync() > 0;
+    }
 
-        public  bool Add(Coupon obj)
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var coupon = await GetAsync(id);
+        if (coupon != null)
         {
-            _context.Coupons.Add(obj);
-            return _context.SaveChanges() > 0;
+            _context.Coupons.Remove(coupon);
+            return await _context.SaveChangesAsync() > 0;
         }
+        return false;
+    }
 
-        public bool Delete(int id)
-        {
-            _context.Coupons.Remove(_context.Coupons.Find(id));
-            return _context.SaveChanges()>0;
-        }
+    public async Task<List<Coupon>> GetAsync()
+    {
+        return await _context.Coupons.ToListAsync();
+    }
 
-        public List<Coupon> Get()
-        {
-            return _context.Coupons.ToList();
-        }
+    public async Task<Coupon> GetAsync(int id)
+    {
+        return await _context.Coupons.FindAsync(id);
+    }
 
-        public Coupon Get(int id)
+    public async Task<bool> UpdateAsync(Coupon obj)
+    {
+        var existingCoupon = await GetAsync(obj.Id);
+        if (existingCoupon != null)
         {
-            return _context.Coupons.Find(id);
+            _context.Entry(existingCoupon).CurrentValues.SetValues(obj);
+            return await _context.SaveChangesAsync() > 0;
         }
-
-        public bool Update(Coupon obj)
-        {
-            var ext = Get(obj.Id);
-            _context.Entry(ext).CurrentValues.SetValues(obj);
-            return _context.SaveChanges() > 0;
-        }
-
-        bool ICrudRepo<Coupon, int, bool>.Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+        return false;
     }
 }

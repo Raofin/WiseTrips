@@ -1,48 +1,56 @@
-﻿using BLL.DTOs;
+﻿using System.Net;
+using API.Auth;
+using BLL.DTOs;
 using BLL.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/coupons")]
+[LoggedIn]
+public class CouponController : ControllerBase
 {
-    [Route("api/coupons")]
-    public class CouponController : ControllerBase
+    private readonly ICouponService _couponService;
+
+    public CouponController(ICouponService couponService)
     {
-        /*[HttpGet]
-        public IActionResult Get()
+        _couponService = couponService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var coupons = await _couponService.GetAsync();
+        return Ok(coupons);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var coupon = await _couponService.GetAsync(id);
+        if (coupon == null)
         {
-            var data = CouponService.Get();
-            return Ok(data);
+            return NotFound();
         }
+        return Ok(coupon);
+    }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+    [HttpPost("add")]
+    public async Task<IActionResult> Add([FromBody] CouponDto couponDto)
+    {
+        var added = await _couponService.AddAsync(couponDto);
+        if (added)
         {
-            var data = CouponService.Get(id);
-            return Ok(data);
+            return Ok(couponDto);
         }
+        return StatusCode((int)HttpStatusCode.InternalServerError);
+    }
 
-        [HttpPost("add")]
-        public IActionResult Add(CouponDto coupon)
-        {
-            var data = CouponService.Add(coupon);
+    [HttpPost("update")]
+    public async Task<IActionResult> Update([FromBody] CouponDto couponDto)
+    {
+        await _couponService.UpdateAsync(couponDto);
 
-            if (data)
-            {
-                return Ok(data);
-            }
-            return StatusCode((int)HttpStatusCode.InternalServerError);
-        }
-
-        [HttpPost("update")]
-        public IActionResult Update(CouponDto coupon)
-        {
-            CouponService.Update(coupon);
-            return Ok();
-        }*/
+        return Ok();
     }
 }

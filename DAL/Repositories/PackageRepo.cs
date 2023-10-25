@@ -1,45 +1,56 @@
 ﻿using DAL.Entity;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories
+namespace DAL.Repositories;
+
+public class PackageRepo : IPackageRepo
 {
-    public class PackageRepo : IPackageRepo
+    private readonly WiseTripsContext _context;
+
+    public PackageRepo(WiseTripsContext context)
     {
-        private readonly WiseTripsContext _context;
+        _context = context;
+    }
 
-        public PackageRepo(WiseTripsContext context)
-        {
-            _context = context;
-        }
+    public async Task<bool> AddAsync(Package obj)
+    {
+        _context.Packages.Add(obj);
+        return await _context.SaveChangesAsync() > 0;
+    }
 
-        public Package Add(Package obj)
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var package = await GetAsync(id);
+        if (package != null)
         {
-            _context.Packages.Add(obj);
-            return _context.SaveChanges() > 0 ? obj : null;
-        }
-
-        public bool Delete(int id)
-        {
-            var package = _context.Packages.Find(id);
             _context.Packages.Remove(package);
-            return _context.SaveChanges() > 0;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+        return false;
+    }
+
+    public async Task<List<Package>> GetAsync()
+    {
+        return await _context.Packages.ToListAsync();
+    }
+
+    public async Task<Package> GetAsync(int id)
+    {
+        return await _context.Packages.FindAsync(id);
+    }
+
+    public async Task<bool> UpdateAsync(Package obj)
+    {
+        var existingPackage = await GetAsync(obj.Id);
+
+        if (existingPackage != null)
+        {
+            _context.Entry(existingPackage).CurrentValues.SetValues(obj);
+            return await _context.SaveChangesAsync() > 0;
         }
 
-        public List<Package> Get()
-        {
-            return _context.Packages.ToList();
-        }
-
-        public Package Get(int id)
-        {
-            return _context.Packages.Find(id);
-        }
-
-        public Package Update(Package obj)
-        {
-            var package = Get(obj.Id);
-            _context.Entry(package).CurrentValues.SetValues(obj);
-            return _context.SaveChanges() > 0 ? obj : null;
-        }
+        return false;
     }
 }

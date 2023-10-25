@@ -1,45 +1,56 @@
 ﻿using DAL.Entity;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories
+namespace DAL.Repositories;
+
+public class TokenRepo : IToken
 {
-    public class TokenRepo : IToken
+    private readonly WiseTripsContext _context;
+
+    public TokenRepo(WiseTripsContext context)
     {
-        private readonly WiseTripsContext _context;
+        _context = context;
+    }
 
-        public TokenRepo(WiseTripsContext context)
-        {
-            _context = context;
-        }
+    public async Task<Token> AddAsync(Token obj)
+    {
+        _context.Tokens.Add(obj);
+        await _context.SaveChangesAsync();
+        return obj;
+    }
 
-        public Token Add(Token obj)
+    public async Task<bool> DeleteAsync(string id)
+    {
+        var token = await GetAsync(id);
+        if (token != null)
         {
-            _context.Tokens.Add(obj);
-            return _context.SaveChanges() > 0 ? obj : null;
-        }
-       
-        public bool Delete(string id)
-        {
-            var token = Get(id);
             _context.Tokens.Remove(token);
-            return _context.SaveChanges() > 0;
+            await _context.SaveChangesAsync();
+            return true;
         }
+        return false;
+    }
 
-        public List<Token> Get()
-        {
-            throw new NotImplementedException();
-        }
+    public async Task<List<Token>> GetAsync()
+    {
+        return await _context.Tokens.ToListAsync();
+    }
 
-        public Token Get(string id)
-        {
-            return _context.Tokens.FirstOrDefault(t => t.AuthToken.Equals(id));
-        }
+    public async Task<Token> GetAsync(string id)
+    {
+        return await _context.Tokens.FirstOrDefaultAsync(t => t.AuthToken.Equals(id));
+    }
 
-        public Token Update(Token obj)
+    public async Task<Token> UpdateAsync(Token obj)
+    {
+        var token = await GetAsync(obj.AuthToken);
+        if (token != null)
         {
-            var token = Get(obj.AuthToken);
             _context.Entry(token).CurrentValues.SetValues(obj);
-            return _context.SaveChanges() > 0 ? obj : null;
+            await _context.SaveChangesAsync();
+            return obj;
         }
+        return null;
     }
 }

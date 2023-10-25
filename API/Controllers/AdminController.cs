@@ -1,61 +1,65 @@
-﻿using BLL.DTOs;
+﻿using System.Net;
+using BLL.DTOs;
 using BLL.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using AutoMapper.Configuration.Annotations;
-using DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Route("api/admin/users")]
     public class AdminController : ControllerBase
     {
-        /*[HttpGet]
-        [Route("api/admin/users")]
-        public IActionResult Get()
+        private readonly IUserService _userService;
+
+        public AdminController(IUserService userService)
         {
-            var data = UserService.Get();
-            return Ok(data);
+            _userService = userService;
         }
 
         [HttpGet]
-        [Route("api/admin/users/{id}")]
-        public IActionResult Get(int id)
+        public async Task<IActionResult> Get()
         {
-            var data = UserService.Get(id);
-            return Ok(data);
+            var users = await _userService.GetAsync();
+            return Ok(users);
         }
 
-        [HttpPost]
-        [Route("api/admin/users/add")]
-        public IActionResult Add(UserDto user)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(int id)
         {
-            var data = UserService.Add(user);
-
-            if (data)
+            var user = await _userService.GetAsync(id);
+            if (user == null)
             {
-                return Ok(data);
+                return NotFound();
             }
-            return Ok(HttpStatusCode.InternalServerError);
+            return Ok(user);
         }
 
-        [HttpDelete]
-        [Route("api/admin/users/delete/{id}")]
-        public IActionResult Delete(int id)
+        [HttpPost("add")]
+        public async Task<IActionResult> Add([FromBody] UserDto userDto)
         {
-            UserService.Delete(id);
-            return Ok();
+            var addedUser = await _userService.AddAsync(userDto);
+            if (addedUser)
+            {
+                return Ok(addedUser);
+            }
+            return StatusCode((int)HttpStatusCode.InternalServerError);
         }
 
-        [HttpPost]
-        [Route("api/admin/users/update")]
-        public IActionResult Update(UserDto user)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
         {
-            UserService.Update(user);
+            var deleted = await _userService.DeleteAsync(id);
+            if (deleted)
+            {
+                return Ok("Deleted");
+            }
+            return StatusCode((int)HttpStatusCode.InternalServerError);
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> Update([FromBody] UserDto userDto)
+        {
+            await _userService.UpdateAsync(userDto);
             return Ok();
-        }*/
+        }
     }
 }

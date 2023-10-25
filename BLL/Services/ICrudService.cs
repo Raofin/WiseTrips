@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace BLL.Services;
 
-namespace BLL.Services
+public interface ICrudService<TDto>
 {
-    public interface ICrudService<TDto>
-    {
-        TDto Add(TDto data);
-        List<TDto> Get();
-        TDto Get(int id);
-        void Update(TDto data);
-        bool Delete(int id);
-    }
-
+    Task<bool> AddAsync(TDto data);
+    Task<List<TDto>> GetAsync();
+    Task<TDto> GetAsync(int id);
+    Task UpdateAsync(TDto data);
+    Task<bool> DeleteAsync(int id);
 }

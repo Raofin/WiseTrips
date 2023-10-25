@@ -8,55 +8,69 @@ using System.Net.Http;
 using API.Auth;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/packages")]
+[LoggedIn]
+public class PackageController : ControllerBase
 {
-    [Route("api/packages")]
-    [LoggedIn]
-    public class PackageController : ControllerBase
+    private readonly IPackageService _packageService;
+
+    public PackageController(IPackageService packageService)
     {
-        /*[HttpGet]
-        public IActionResult Get()
+        _packageService = packageService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var packages = await _packageService.GetAsync();
+        return Ok(packages);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var package = await _packageService.GetAsync(id);
+        if (package == null)
         {
-            var data = PackageService.Get();
-            return Ok(data);
+            return NotFound();
         }
+        return Ok(package);
+    }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+    [HttpPost("add")]
+    public async Task<IActionResult> Add(PackageDto packageDto)
+    {
+        var addedPackage = await _packageService.AddAsync(packageDto);
+        if (addedPackage != null)
         {
-            var data = PackageService.Get(id);
-            return Ok(data);
+            return Ok(addedPackage);
         }
+        return StatusCode((int)HttpStatusCode.InternalServerError);
+    }
 
-        [HttpPost("add")]
-        public IActionResult Add(PackageDto package)
+    [HttpPost("update/{id}")]
+    public async Task<IActionResult> Update(int id, PackageDto packageDto)
+    {
+        /*var updated = await _packageService.UpdateAsync(id, packageDto);
+        if (updated)
         {
-            var data = PackageService.Add(package);
-
-            if (data != null)
-            {
-                return Ok(data);
-            }
-            return StatusCode((int)HttpStatusCode.InternalServerError);
-        }
-
-        [HttpPost("update/{id}")]
-        public IActionResult Update(int id, PackageDto package)
-        {
-            PackageService.Update(package);
             return Ok();
         }
+        return StatusCode((int)HttpStatusCode.InternalServerError);*/
 
-        [HttpGet("delete/{id}")]
-        public IActionResult Delete(int id)
+        return Ok();
+    }
+
+    [HttpGet("delete/{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var deleted = await _packageService.DeleteAsync(id);
+        if (deleted)
         {
-            var data = PackageService.Delete(id);
-
-            if (data)
-            {
-                return Ok("deleted");
-            }
-            return StatusCode((int)HttpStatusCode.InternalServerError);
-        }*/
+            return Ok("Deleted");
+        }
+        return StatusCode((int)HttpStatusCode.InternalServerError);
     }
 }

@@ -1,61 +1,64 @@
-﻿using BLL.DTOs;
+﻿using System.Net;
+using BLL.DTOs;
 using BLL.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/agencies")]
+public class AgencyController : ControllerBase
 {
-    [Route("api/agencies")]
-    public class AgencyController : ControllerBase
+    private readonly IAgencyService _agencyService;
+
+    public AgencyController(IAgencyService agencyService)
     {
-        /*[HttpGet]
-        public IActionResult Get()
+        _agencyService = agencyService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var agencies = await _agencyService.GetAsync();
+        return Ok(agencies);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var agency = await _agencyService.GetAsync(id);
+        if (agency == null)
         {
-            var data = AgencyService.Get();
-            return Ok(data);
+            return NotFound();
         }
+        return Ok(agency);
+    }
 
-        [HttpGet("{id}")]
-        public IActionResult Get(int id)
+    [HttpPost("add")]
+    public async Task<IActionResult> Add([FromBody] AgencyDto agencyDto)
+    {
+        var addedAgency = await _agencyService.AddAsync(agencyDto);
+        if (addedAgency != null)
         {
-            var data = AgencyService.Get(id);
-            return Ok(data);
+            return Ok(addedAgency);
         }
+        return StatusCode((int)HttpStatusCode.InternalServerError);
+    }
 
-        [HttpPost("add")]
-        public IActionResult Add(AgencyDto agency)
+    [HttpPut("update/{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] AgencyDto agencyDto)
+    {
+        /*await _agencyService.UpdateAsync(id, agencyDto);*/
+        return Ok();
+    }
+
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var deleted = await _agencyService.DeleteAsync(id);
+        if (deleted)
         {
-            *//*var data = AgencyService.Add(agency);
-
-            if (data != null)
-            {
-                return Ok(data);
-            }
-            return StatusCode((int)HttpStatusCode.InternalServerError);*//*
-            return null;
+            return Ok("Deleted");
         }
-
-        [HttpPost("update/{id}")]
-        public IActionResult Update(int id, AgencyDto agency)
-        {
-            AgencyService.Update(agency);
-            return Ok();
-        }
-
-        [HttpPost("delete/{id}")]
-        public IActionResult Delete(int id)
-        {
-            var data = AgencyService.Delete(id);
-
-            if (data != false)
-            {
-                return Ok("deleted");
-            }
-            return StatusCode((int)HttpStatusCode.InternalServerError);
-        }*/
+        return StatusCode((int)HttpStatusCode.InternalServerError);
     }
 }

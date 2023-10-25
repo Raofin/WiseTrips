@@ -1,42 +1,55 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using API.Auth;
-using Azure.Core;
+﻿using API.Auth;
 using BLL.DTOs;
 using BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/trips")]
+[LoggedIn]
+public class TripController : ControllerBase
 {
-    [Route("api/trips")]
-    [LoggedIn]
-    public class TripController : ControllerBase
+    private readonly ITripService _tripService;
+    private readonly IUserService _userService;
+
+    public TripController(ITripService tripService, IUserService userService)
     {
-        /*[HttpGet]
-        public IActionResult GetTrips()
+        _tripService = tripService;
+        _userService = userService;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetTrips()
+    {
+        var trips = await _tripService.GetAsync();
+        return Ok(trips);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetTrip(int id)
+    {
+        var trip = await _tripService.GetAsync(id);
+        if (trip == null)
         {
-            return Ok(TripService.GetAll());
+            return NotFound();
+        }
+        return Ok(trip);
+    }
+
+    [HttpPost("add")]
+    public async Task<IActionResult> AddTrip([FromBody] TripDto tripDto)
+    {
+        var authorizationHeader = Request.Headers["Authorization"].ToString();
+        var user = await _userService.GetByTokenAsync(authorizationHeader);
+
+        if (user == null)
+        {
+            return Unauthorized();
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetTrip(int id)
-        {
-            return Ok(TripService.Get(id));
-        }
+        tripDto.UserId = user.Id;
+        var trip = await _tripService.AddAsync(tripDto);
 
-        [HttpPost("add")]
-        public IActionResult AddTrip(TripDto tripDto)
-        {
-            var user = UserService.GetByToken(Request.Headers["Authorization"].ToString());
-            tripDto.UserId = user.Id;
-
-            var trip = TripService.Add(tripDto);
-
-            return Ok(trip);
-        }*/
+        return Ok(trip);
     }
 }

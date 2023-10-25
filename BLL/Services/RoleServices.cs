@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using BLL.DTOs;
-using DAL;
 using DAL.Entity;
 using DAL.Interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using DAL;
 
 namespace BLL.Services
 {
-    public class RoleService
+    public class RoleService : IRoleService
     {
-       /* private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly IRoleRepo _roleRepo;
 
         public RoleService(IMapper mapper, DataAccessFactory dataAccessFactory)
@@ -18,35 +19,33 @@ namespace BLL.Services
             _roleRepo = dataAccessFactory.RoleDataAccess();
         }
 
-        private static readonly Mapper mapper = new Mapper(
-            new MapperConfiguration(c => {
-                c.CreateMap<Role, RoleDto>();
-                c.CreateMap<RoleDto, Role>();
-            })
-        );
-
-        public List<RoleDto> GetAll()
+        public async Task<List<RoleDto>> GetAsync()
         {
-            var data = _roleRepo.Get();
-            return mapper.Map<List<RoleDto>>(data);
+            var data = await _roleRepo.GetAsync();
+            return _mapper.Map<List<RoleDto>>(data);
         }
 
-        public RoleDto Get(int id)
+        public async Task<RoleDto> GetAsync(int id)
         {
-            var data = _roleRepo.Get(id);
-            return mapper.Map<RoleDto>(data);
+            var data = await _roleRepo.GetAsync(id);
+            return _mapper.Map<RoleDto>(data);
         }
 
-        public bool Add(RoleDto roleDto)
+        public async Task<bool> AddAsync(RoleDto roleDto)
         {
-            var role = mapper.Map<Role>(roleDto);
-            return _roleRepo.Add(role);
+            var role = _mapper.Map<Role>(roleDto);
+            return await _roleRepo.AddAsync(role);
         }
 
-        public bool Update(RoleDto roleDto)
+        public async Task UpdateAsync(RoleDto roleDto)
         {
-            var role = mapper.Map<Role>(roleDto);
-            return _roleRepo.Update(role);
-        }*/
+            var role = _mapper.Map<Role>(roleDto);
+            await _roleRepo.UpdateAsync(role);
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            return await _roleRepo.DeleteAsync(id);
+        }
     }
 }

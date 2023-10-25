@@ -1,41 +1,53 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net;
 using BLL.DTOs;
 using BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace API.Controllers;
+
+[Route("api/hotels")]
+public class HotelController : ControllerBase
 {
-    [Route("api/hotels")]
-    public class HotelController : ControllerBase
+    private readonly IHotelService _hotelService;
+
+    public HotelController(IHotelService hotelService)
     {
-        /*[HttpGet]
-        public IActionResult GetHotels()
-        {
-            return Ok(HotelService.GetAll());
-        }
+        _hotelService = hotelService;
+    }
 
-        [HttpGet("{id}")]
-        public IActionResult GetHotel(int id)
-        {
-            return Ok(HotelService.Get(id));
-        }
+    [HttpGet]
+    public async Task<IActionResult> Get()
+    {
+        var hotels = await _hotelService.GetAsync();
+        return Ok(hotels);
+    }
 
-        [HttpPost("add")]
-        public IActionResult AddHotel(HotelDto hotelDto)
+    [HttpGet("{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var hotel = await _hotelService.GetAsync(id);
+        if (hotel == null)
         {
-            var hotel = HotelService.Add(hotelDto);
-            return Ok(hotel);
+            return NotFound();
         }
+        return Ok(hotel);
+    }
 
-        [HttpPost("update")]
-        public IActionResult UpdateHotel(HotelDto hotelDto)
+    [HttpPost("add")]
+    public async Task<IActionResult> Add([FromBody] HotelDto hotelDto)
+    {
+        var addedHotel = await _hotelService.AddAsync(hotelDto);
+        if (addedHotel != null)
         {
-            var hotel = HotelService.Update(hotelDto);
-            return Ok(hotel);
-        }*/
+            return Ok(addedHotel);
+        }
+        return StatusCode((int)HttpStatusCode.InternalServerError);
+    }
+
+    [HttpPost("update")]
+    public async Task<IActionResult> Update([FromBody] HotelDto hotelDto)
+    {
+        await _hotelService.UpdateAsync(hotelDto);
+        return Ok();
     }
 }

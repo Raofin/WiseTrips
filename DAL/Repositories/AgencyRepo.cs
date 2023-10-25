@@ -1,47 +1,49 @@
 ﻿using DAL.Entity;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories
+namespace DAL.Repositories;
+
+public class AgencyRepo : IAgencyRepo
 {
-    public class AgencyRepo : IAgencyRepo
+    private readonly WiseTripsContext _context;
+
+    public AgencyRepo(WiseTripsContext context)
     {
-        private readonly WiseTripsContext _context;
+        _context = context;
+    }
 
-        public AgencyRepo(WiseTripsContext context)
+    public async Task<bool> AddAsync(Agency obj)
+    {
+        _context.Agencies.Add(obj);
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var agency = await GetAsync(id);
+        if (agency != null)
         {
-            _context = context;
-        }
-
-        public Agency Add(Agency obj)
-        {
-            _context.Agencies.Add(obj);
-
-            return _context.SaveChanges() > 0 ? obj : null;
-        }
-
-        public bool Delete(int id)
-        {
-            var agency = _context.Agencies.Find(id);
             _context.Agencies.Remove(agency);
-            return _context.SaveChanges() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
+        return false;
+    }
 
-        public List<Agency> Get()
-        {
-            return _context.Agencies.ToList();
-        }
+    public async Task<List<Agency>> GetAsync()
+    {
+        return await _context.Agencies.ToListAsync();
+    }
 
-        public Agency Get(int id)
-        {
-            return _context.Agencies.Find(id);
-        }
+    public async Task<Agency> GetAsync(int id)
+    {
+        return await _context.Agencies.FindAsync(id);
+    }
 
-        public Agency Update(Agency obj)
-        {
-            var agency = Get(obj.Id);
-            _context.Entry(agency).CurrentValues.SetValues(obj);
-            
-            return _context.SaveChanges() > 0 ? obj : null;
-        }
+    public async Task<bool> UpdateAsync(Agency obj)
+    {
+        var existingAgency = await GetAsync(obj.Id);
+        _context.Entry(existingAgency).CurrentValues.SetValues(obj);
+        return await _context.SaveChangesAsync() > 0;
     }
 }

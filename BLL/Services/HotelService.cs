@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using BLL.DTOs;
 using DAL;
 using DAL.Entity;
@@ -7,9 +6,9 @@ using DAL.Interfaces;
 
 namespace BLL.Services
 {
-    public class HotelService
+    public class HotelService : IHotelService
     {
-       /* private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
         private readonly IHotelRepo _hotelRepo;
 
         public HotelService(IMapper mapper, DataAccessFactory dataAccessFactory)
@@ -18,35 +17,33 @@ namespace BLL.Services
             _hotelRepo = dataAccessFactory.HotelDataAccess();
         }
 
-        private static readonly Mapper mapper = new Mapper(
-            new MapperConfiguration(c => {
-                c.CreateMap<Hotel, HotelDto>();
-                c.CreateMap<HotelDto, Hotel>();
-            })
-        );
-
-        public List<HotelDto> GetAll()
+        public async Task<List<HotelDto>> GetAsync()
         {
-            var data = _hotelRepo.Get();
-            return mapper.Map<List<HotelDto>>(data);
+            var data = await _hotelRepo.GetAsync();
+            return _mapper.Map<List<HotelDto>>(data);
         }
 
-        public HotelDto Get(int id)
+        public async Task<HotelDto> GetAsync(int id)
         {
-            var data = _hotelRepo.Get(id);
-            return mapper.Map<HotelDto>(data);
+            var data = await _hotelRepo.GetAsync(id);
+            return _mapper.Map<HotelDto>(data);
         }
 
-        public bool Add(HotelDto hotelDto)
+        public async Task<bool> AddAsync(HotelDto hotelDto)
         {
-            var hotel = mapper.Map<Hotel>(hotelDto);
-            return _hotelRepo.Add(hotel);
+            var hotel = _mapper.Map<Hotel>(hotelDto);
+            return await _hotelRepo.AddAsync(hotel);
         }
 
-        public bool Update(HotelDto hotelDto)
+        public async Task UpdateAsync(HotelDto hotelDto)
         {
-            var hotel = mapper.Map<Hotel>(hotelDto);
-            return _hotelRepo.Update(hotel);
-        }*/
+            var hotel = _mapper.Map<Hotel>(hotelDto);
+            await _hotelRepo.UpdateAsync(hotel);
+        }
+
+        public Task<bool> DeleteAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

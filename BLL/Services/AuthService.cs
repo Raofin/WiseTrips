@@ -4,55 +4,61 @@ using DAL;
 using DAL.Entity;
 using DAL.Interfaces;
 
-namespace BLL.Services
+namespace BLL.Services;
+
+public class AuthService
 {
-    public class AuthService
+    private readonly IUserRepo _userRepo;
+    private readonly IAuthRepo _auth;
+    private readonly IToken _tokenRepo;
+
+    public AuthService(DataAccessFactory dataAccessFactory)
     {
-        private readonly IUserRepo _userRepo;
-        private readonly IAuthRepo _auth;
-        private readonly IToken _tokenRepo;
+        _userRepo = dataAccessFactory.UserDataAccess();
+        _auth = dataAccessFactory.AuthDataAccess();
+        _tokenRepo = dataAccessFactory.TokenDataAccess();
+    }
 
-        public AuthService(DataAccessFactory dataAccessFactory)
+    public async Task<TokenDto> AuthenticateAsync(string username, string password)
+    {
+        var user = await _auth.AuthenticateAsync(username, password);
+
+        if (user != null)
         {
-            _userRepo = dataAccessFactory.UserDataAccess();
-            _auth = dataAccessFactory.AuthDataAccess();
-            _tokenRepo = dataAccessFactory.TokenDataAccess();
-        }
+            var userEntity = (await _userRepo.GetAsync()).FirstOrDefault(u => u.Username == username);
 
-        public TokenDto Authenticate(string username, string password)
-        { 
-            var user = _auth.Authenticate(username, password);
-
-            if (user != null)
+            if (userEntity != null)
             {
                 var token = new Token {
                     AuthToken = Guid.NewGuid().ToString(),
                     CreatedOn = DateTime.Now,
                     ExpiredOn = DateTime.Now.AddHours(1),
-                    UserId = _userRepo.Get().First(u => u.Username == username).Id
+                    UserId = userEntity.Id
                 };
 
-                var rt = _tokenRepo.Add(token);
+                var rt = await _tokenRepo.AddAsync(token);
 
-                if (rt == null) return null;
+                if (rt != null)
+                {
+                    var config = new MapperConfiguration(c => c.CreateMap<Token, TokenDto>());
+                    var mapper = new Mapper(config);
 
-                var config = new MapperConfiguration(c => c.CreateMap<Token, TokenDto>());
-                var mapper = new Mapper(config);
-
-                return mapper.Map<TokenDto>(rt);
+                    return mapper.Map<TokenDto>(rt);
+                }
             }
-            return null;
         }
 
-        public bool TokenValidity(string value)
-        {
-            var token = _tokenRepo.Get(value);
-            return Convert.ToDateTime(token.ExpiredOn) > DateTime.Now;
-        }
+        return null;
+    }
 
-        public bool Logout(string token)
-        {
-            return _auth.Logout(token);
-        }
+    public async Task<bool> TokenValidityAsync(string value)
+    {
+        var token = await _tokenRepo.GetAsync(value);
+        return Convert.ToDateTime(token.ExpiredOn) > DateTime.Now;
+    }
+
+    public async Task<bool> LogoutAsync(string token)
+    {
+        return await _auth.LogoutAsync(token);
     }
 }

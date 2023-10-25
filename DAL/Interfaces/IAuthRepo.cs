@@ -1,13 +1,12 @@
 ﻿using DAL.Entity;
 
-namespace DAL.Interfaces
+namespace DAL.Interfaces;
+
+public interface IAuthRepo
 {
-    public interface IAuthRepo
-    {
-        User Authenticate(string username, string password);
+    Task<User> AuthenticateAsync(string username, string password);
 
-        bool Logout(string token);
+    Task<bool> LogoutAsync(string token);
 
-        User GetUser(string token);
-    }
+    Task<User> GetUserAsync(string token);
 }

@@ -1,43 +1,53 @@
 ﻿using DAL.Entity;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace DAL.Repositories
+namespace DAL.Repositories;
+
+public class RoleRepo : IRoleRepo
 {
-    public class RoleRepo : IRoleRepo
+    private readonly WiseTripsContext _context;
+
+    public RoleRepo(WiseTripsContext context)
     {
-        private readonly WiseTripsContext _context;
+        _context = context;
+    }
 
-        public RoleRepo(WiseTripsContext context)
-        {
-            _context = context;
-        }
+    public async Task<List<Role>> GetAsync()
+    {
+        return await _context.Roles.ToListAsync();
+    }
 
-        public List<Role> Get()
-        {
-            return _context.Roles.ToList();
-        }
+    public async Task<Role> GetAsync(int id)
+    {
+        return await _context.Roles.FindAsync(id);
+    }
 
-        public Role Get(int id)
-        {
-            return _context.Roles.Find(id);
-        }
+    public async Task<bool> AddAsync(Role obj)
+    {
+        _context.Roles.Add(obj);
+        return await _context.SaveChangesAsync() > 0;
+    }
 
-        public bool Add(Role obj)
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var role = await GetAsync(id);
+        if (role != null)
         {
-            _context.Roles.Add(obj);
-            return _context.SaveChanges() > 0;
+            _context.Roles.Remove(role);
+            return await _context.SaveChangesAsync() > 0;
         }
+        return false;
+    }
 
-        public bool Delete(int id)
+    public async Task<bool> UpdateAsync(Role obj)
+    {
+        var existingRole = await GetAsync(obj.Id);
+        if (existingRole != null)
         {
-            throw new NotImplementedException();
+            _context.Entry(existingRole).CurrentValues.SetValues(obj);
+            return await _context.SaveChangesAsync() > 0;
         }
-
-        public bool Update(Role obj)
-        {
-            var ext = Get(obj.Id);
-            _context.Entry(ext).CurrentValues.SetValues(obj);
-            return _context.SaveChanges() > 0;
-        }
+        return false;
     }
 }
