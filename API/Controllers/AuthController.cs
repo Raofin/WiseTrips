@@ -13,7 +13,7 @@ namespace API.Controllers
     [Route("api")]
     public class AuthController : ControllerBase
     {
-        [HttpPost("login")]
+        /*[HttpPost("login")]
         public IActionResult Login(LoginDto loginDto)
         {
             var data = AuthService.Authenticate(loginDto.Username, loginDto.Password);
@@ -35,6 +35,6 @@ namespace API.Controllers
                 return Ok("Successfully logged out.");
             }
             return BadRequest("Invalid token");
-        }
+        }*/
     }
 }

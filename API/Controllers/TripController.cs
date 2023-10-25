@@ -16,7 +16,7 @@ namespace API.Controllers
     [LoggedIn]
     public class TripController : ControllerBase
     {
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult GetTrips()
         {
             return Ok(TripService.GetAll());
@@ -37,6 +37,6 @@ namespace API.Controllers
             var trip = TripService.Add(tripDto);
 
             return Ok(trip);
-        }
+        }*/
     }
 }

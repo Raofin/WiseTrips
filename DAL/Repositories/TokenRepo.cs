@@ -1,28 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.EF;
+﻿using DAL.Entity;
 using DAL.Interfaces;
 
 namespace DAL.Repositories
 {
-    public class TokenRepo : IRepo<Token, string, Token>
+    public class TokenRepo : IToken
     {
-        WiseTripsEntities db = new WiseTripsEntities();
+        private readonly WiseTripsContext _context;
+
+        public TokenRepo(WiseTripsContext context)
+        {
+            _context = context;
+        }
 
         public Token Add(Token obj)
         {
-            db.Tokens.Add(obj);
-            return db.SaveChanges() > 0 ? obj : null;
+            _context.Tokens.Add(obj);
+            return _context.SaveChanges() > 0 ? obj : null;
         }
        
         public bool Delete(string id)
         {
             var token = Get(id);
-            db.Tokens.Remove(token);
-            return db.SaveChanges() > 0;
+            _context.Tokens.Remove(token);
+            return _context.SaveChanges() > 0;
         }
 
         public List<Token> Get()
@@ -32,14 +32,14 @@ namespace DAL.Repositories
 
         public Token Get(string id)
         {
-            return db.Tokens.FirstOrDefault(t => t.AuthToken.Equals(id));
+            return _context.Tokens.FirstOrDefault(t => t.AuthToken.Equals(id));
         }
 
         public Token Update(Token obj)
         {
             var token = Get(obj.AuthToken);
-            db.Entry(token).CurrentValues.SetValues(obj);
-            return db.SaveChanges() > 0 ? obj : null;
+            _context.Entry(token).CurrentValues.SetValues(obj);
+            return _context.SaveChanges() > 0 ? obj : null;
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.EF;
+namespace DAL.Entity;
 
 public partial class Role
 {

@@ -12,7 +12,7 @@ namespace API.Controllers
     [Route("api/roles")]
     public class RoleController : ControllerBase
     {
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult GetRoles()
         {
             return Ok(RoleService.GetAll());
@@ -36,6 +36,6 @@ namespace API.Controllers
         {
             var role = RoleService.Update(roleDto);
             return Ok(role);
-        }
+        }*/
     }
 }

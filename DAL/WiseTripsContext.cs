@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using DAL.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace DAL.EF;
+namespace DAL;
 
-public partial class WiseTripsEntities : DbContext
+public partial class WiseTripsContext : DbContext
 {
-    public WiseTripsEntities()
+    public WiseTripsContext()
     {
     }
 
-    public WiseTripsEntities(DbContextOptions<WiseTripsEntities> options)
+    public WiseTripsContext(DbContextOptions<WiseTripsContext> options)
         : base(options)
     {
     }
@@ -41,7 +42,7 @@ public partial class WiseTripsEntities : DbContext
     {
         modelBuilder.Entity<Agency>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Agencies__3214EC07A420C08E");
+            entity.HasKey(e => e.Id).HasName("PK__Agencies__3214EC07FB05F86C");
 
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
@@ -54,7 +55,7 @@ public partial class WiseTripsEntities : DbContext
 
         modelBuilder.Entity<Coupon>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Coupons__3214EC07FA56E7C8");
+            entity.HasKey(e => e.Id).HasName("PK__Coupons__3214EC073B9A52CB");
 
             entity.Property(e => e.Code)
                 .HasMaxLength(50)
@@ -72,7 +73,7 @@ public partial class WiseTripsEntities : DbContext
 
         modelBuilder.Entity<Hotel>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Hotels__3214EC071B52EFBC");
+            entity.HasKey(e => e.Id).HasName("PK__Hotels__3214EC07525EC143");
 
             entity.Property(e => e.Description).HasColumnType("text");
             entity.Property(e => e.Name)
@@ -82,7 +83,7 @@ public partial class WiseTripsEntities : DbContext
 
         modelBuilder.Entity<Log>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC07F67685D8");
+            entity.HasKey(e => e.Id).HasName("PK__Logs__3214EC07421A4E23");
 
             entity.Property(e => e.Action)
                 .HasMaxLength(20)
@@ -117,7 +118,7 @@ public partial class WiseTripsEntities : DbContext
 
         modelBuilder.Entity<Package>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Packages__3214EC07999663E1");
+            entity.HasKey(e => e.Id).HasName("PK__Packages__3214EC07AA66704C");
 
             entity.Property(e => e.Country)
                 .HasMaxLength(50)
@@ -135,7 +136,7 @@ public partial class WiseTripsEntities : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Roles__3214EC077B149631");
+            entity.HasKey(e => e.Id).HasName("PK__Roles__3214EC071C5CADC1");
 
             entity.Property(e => e.AddedOn)
                 .HasDefaultValueSql("(getdate())")
@@ -151,7 +152,7 @@ public partial class WiseTripsEntities : DbContext
 
         modelBuilder.Entity<Token>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Tokens__3214EC07FD3E04D4");
+            entity.HasKey(e => e.Id).HasName("PK__Tokens__3214EC075ECE17B3");
 
             entity.Property(e => e.AuthToken)
                 .HasMaxLength(128)
@@ -168,7 +169,7 @@ public partial class WiseTripsEntities : DbContext
 
         modelBuilder.Entity<Trip>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Trips__3214EC07EFC27CEF");
+            entity.HasKey(e => e.Id).HasName("PK__Trips__3214EC07040025BB");
 
             entity.Property(e => e.Date)
                 .HasDefaultValueSql("(getdate())")
@@ -195,7 +196,7 @@ public partial class WiseTripsEntities : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC07702A63C2");
+            entity.HasKey(e => e.Id).HasName("PK__Users__3214EC07DFEBCEF1");
 
             entity.Property(e => e.Email)
                 .HasMaxLength(50)

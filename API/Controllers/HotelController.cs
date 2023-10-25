@@ -12,7 +12,7 @@ namespace API.Controllers
     [Route("api/hotels")]
     public class HotelController : ControllerBase
     {
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult GetHotels()
         {
             return Ok(HotelService.GetAll());
@@ -36,6 +36,6 @@ namespace API.Controllers
         {
             var hotel = HotelService.Update(hotelDto);
             return Ok(hotel);
-        }
+        }*/
     }
 }

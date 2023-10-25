@@ -1,59 +1,60 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.EF;
-using DAL.Interfaces;
+﻿using DAL.Interfaces;
 using DAL.Repositories;
 
 namespace DAL
 {
     public class DataAccessFactory
     {
-        public static IRepo<User, int, bool> UserDataAccess()
+        private readonly WiseTripsContext _context;
+
+        public DataAccessFactory(WiseTripsContext context)
         {
-            return new UserRepo();
+            _context = context;
         }
 
-        public static IAuth AuthDataAccess()
+        public IUserRepo UserDataAccess()
         {
-            return new UserRepo();
+            return new UserRepo(_context);
         }
 
-        public static IRepo<Token, string, Token> TokenDataAccess()
+        public IAuthRepo AuthDataAccess()
         {
-            return new TokenRepo();
+            return new UserRepo(_context);
         }
 
-        public static IRepo<Coupon, int, bool> CouponDataAccess()
+        public IToken TokenDataAccess()
         {
-            return new CouponRepo();
+            return new TokenRepo(_context);
         }
 
-        public static IRepo<Agency, int, Agency> AgencyDataAccess()
+        public ICouponRepo CouponDataAccess()
         {
-            return new AgencyRepo();
+            return new CouponRepo(_context);
         }
 
-        public static IRepo<Package, int, Package> PackageDataAccess()
+        public IAgencyRepo AgencyDataAccess()
         {
-            return new PackageRepo();
+            return new AgencyRepo(_context);
         }
 
-        public static IRepo<Trip, int, bool> TripDataAccess()
+        public IPackageRepo PackageDataAccess()
         {
-            return new TripRepo();
+            return new PackageRepo(_context);
         }
 
-        public static IRepo<Hotel, int, bool> HotelDataAccess()
+        public ITripRepo TripDataAccess()
         {
-            return new HotelRepo();
+            return new TripRepo(_context);
         }
 
-        public static IRepo<Role, int, bool> RoleDataAccess()
+        public IHotelRepo HotelDataAccess()
         {
-            return new RoleRepo();
+            return new HotelRepo(_context);
+        }
+
+        public IRoleRepo RoleDataAccess()
+        {
+            return new RoleRepo(_context);
         }
     }
 }

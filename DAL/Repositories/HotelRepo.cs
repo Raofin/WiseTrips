@@ -1,29 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.EF;
+﻿using DAL.Entity;
 using DAL.Interfaces;
 
 namespace DAL.Repositories
 {
-    public class HotelRepo : Repo, IRepo<Hotel, int, bool>
+    public class HotelRepo : IHotelRepo
     {
+        private readonly WiseTripsContext _context;
+
+        public HotelRepo(WiseTripsContext context)
+        {
+            _context = context;
+        }
+
         public List<Hotel> Get()
         {
-            return db.Hotels.ToList();
+            return _context.Hotels.ToList();
         }
 
         public Hotel Get(int id)
         {
-            return db.Hotels.Find(id);
+            return _context.Hotels.Find(id);
         }
 
         public bool Add(Hotel obj)
         {
-            db.Hotels.Add(obj);
-            return db.SaveChanges() > 0;
+            _context.Hotels.Add(obj);
+            return _context.SaveChanges() > 0;
         }
 
         public bool Delete(int id)
@@ -34,8 +36,8 @@ namespace DAL.Repositories
         public bool Update(Hotel obj)
         {
             var ext = Get(obj.Id);
-            db.Entry(ext).CurrentValues.SetValues(obj);
-            return db.SaveChanges() > 0;
+            _context.Entry(ext).CurrentValues.SetValues(obj);
+            return _context.SaveChanges() > 0;
         }
     }
 }

@@ -6,12 +6,22 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BLL.DTOs;
 using DAL;
-using DAL.EF;
+using DAL.Entity;
+using DAL.Interfaces;
 
 namespace BLL.Services
 {
     public class TripService
     {
+       /* private readonly IMapper _mapper;
+        private readonly ITripRepo _tripRepo;
+
+        public TripService(IMapper mapper, DataAccessFactory dataAccessFactory)
+        {
+            _mapper = mapper;
+            _tripRepo = dataAccessFactory.TripDataAccess();
+        }
+
         private static Mapper mapper = new Mapper(
             new MapperConfiguration(c => {
                 c.CreateMap<Trip, TripDto>();
@@ -19,21 +29,21 @@ namespace BLL.Services
             })
         );
 
-        public static List<TripDto> GetAll()
+        public List<TripDto> GetAll()
         {
-            var data = DataAccessFactory.TripDataAccess().Get();
+            var data = _tripRepo.Get();
             return mapper.Map<List<TripDto>>(data);
         }
 
-        public static TripDto Get(int id)
+        public TripDto Get(int id)
         {
-            var data = DataAccessFactory.TripDataAccess().Get(id);
+            var data = _tripRepo.Get(id);
             return mapper.Map<TripDto>(data);
         }
 
-        public static bool Add(TripDto tripDto)
+        public bool Add(TripDto tripDto)
         {
-            var trip = mapper.Map<Trip>(tripDto);
+            *//*var trip = mapper.Map<Trip>(tripDto);
 
             var discount = trip.UsedCoupon != null 
                 ? CouponService.Get((int)trip.UsedCoupon).Discount 
@@ -46,7 +56,8 @@ namespace BLL.Services
             trip.Paid = amount - (amount * discount / 100);
             
             trip.Date = DateTime.Now;
-            return DataAccessFactory.TripDataAccess().Add(trip);
-        }
+            return DataAccessFactory.TripDataAccess().Add(trip);*//*
+            throw new NotImplementedException();
+        }*/
     }
 }

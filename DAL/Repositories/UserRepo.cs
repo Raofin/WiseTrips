@@ -1,55 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DAL.EF;
+﻿using DAL.Entity;
 using DAL.Interfaces;
 
 namespace DAL.Repositories
 {
-    public class UserRepo : IRepo<User, int, bool>, IAuth
+    public class UserRepo : IUserRepo, IAuthRepo
     {
-        WiseTripsEntities db;
+        private readonly WiseTripsContext _context;
 
-        internal UserRepo()
+        public UserRepo(WiseTripsContext context)
         {
-            db = new WiseTripsEntities();
+            _context = context;
         }
 
         public bool Add(User obj)
         {
-            db.Users.Add(obj);
-            return db.SaveChanges() > 0;
+            _context.Users.Add(obj);
+            return _context.SaveChanges() > 0;
         }
 
         public bool Delete(int id)
         {
-            var user = db.Users.Find(id);
-            db.Users.Remove(user);
-            return db.SaveChanges() > 0;
+            var user = _context.Users.Find(id);
+            _context.Users.Remove(user);
+            return _context.SaveChanges() > 0;
         }
 
         public List<User> Get()
         {
-            return db.Users.ToList();
+            return _context.Users.ToList();
         }
 
         public User Get(int id)
         {
-            return db.Users.Find(id);
+            return _context.Users.Find(id);
         }
 
         public bool Update(User obj)
         {
             var ext = Get(obj.Id);
-            db.Entry(ext).CurrentValues.SetValues(obj);
-            return db.SaveChanges() > 0;
+            _context.Entry(ext).CurrentValues.SetValues(obj);
+            return _context.SaveChanges() > 0;
         }
 
         public User Authenticate(string username, string password)
         {
-            var user = db.Users.FirstOrDefault(u =>
+            var user = _context.Users.FirstOrDefault(u =>
                     u.Username.Equals(username) &&
                     u.Password.Equals(password)
             );
@@ -58,20 +53,20 @@ namespace DAL.Repositories
 
         public bool Logout(string token)
         {
-            var authToken = db.Tokens.FirstOrDefault(t => t.AuthToken.Equals(token));
+            var authToken = _context.Tokens.FirstOrDefault(t => t.AuthToken.Equals(token));
 
             if (authToken == null) 
                 return false;
             
             authToken.ExpiredOn = DateTime.Now;
-            db.SaveChanges();
+            _context.SaveChanges();
             return true;
         }
 
         public User GetUser(string token)
         {
-            return (from u in db.Users
-                    where u.Id == (from t in db.Tokens 
+            return (from u in _context.Users
+                    where u.Id == (from t in _context.Tokens 
                         where t.AuthToken == token && t.ExpiredOn > DateTime.Now 
                         select t.UserId).FirstOrDefault() 
                             select u).FirstOrDefault();

@@ -2,12 +2,22 @@
 using AutoMapper;
 using BLL.DTOs;
 using DAL;
-using DAL.EF;
+using DAL.Entity;
+using DAL.Interfaces;
 
 namespace BLL.Services
 {
     public class RoleService
     {
+       /* private readonly IMapper _mapper;
+        private readonly IRoleRepo _roleRepo;
+
+        public RoleService(IMapper mapper, DataAccessFactory dataAccessFactory)
+        {
+            _mapper = mapper;
+            _roleRepo = dataAccessFactory.RoleDataAccess();
+        }
+
         private static readonly Mapper mapper = new Mapper(
             new MapperConfiguration(c => {
                 c.CreateMap<Role, RoleDto>();
@@ -15,28 +25,28 @@ namespace BLL.Services
             })
         );
 
-        public static List<RoleDto> GetAll()
+        public List<RoleDto> GetAll()
         {
-            var data = DataAccessFactory.RoleDataAccess().Get();
+            var data = _roleRepo.Get();
             return mapper.Map<List<RoleDto>>(data);
         }
 
-        public static RoleDto Get(int id)
+        public RoleDto Get(int id)
         {
-            var data = DataAccessFactory.RoleDataAccess().Get(id);
+            var data = _roleRepo.Get(id);
             return mapper.Map<RoleDto>(data);
         }
 
-        public static bool Add(RoleDto roleDto)
+        public bool Add(RoleDto roleDto)
         {
             var role = mapper.Map<Role>(roleDto);
-            return DataAccessFactory.RoleDataAccess().Add(role);
+            return _roleRepo.Add(role);
         }
 
-        public static bool Update(RoleDto roleDto)
+        public bool Update(RoleDto roleDto)
         {
             var role = mapper.Map<Role>(roleDto);
-            return DataAccessFactory.RoleDataAccess().Update(role);
-        }
+            return _roleRepo.Update(role);
+        }*/
     }
 }

@@ -14,7 +14,7 @@ namespace API.Controllers
     [LoggedIn]
     public class PackageController : ControllerBase
     {
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Get()
         {
             var data = PackageService.Get();
@@ -57,6 +57,6 @@ namespace API.Controllers
                 return Ok("deleted");
             }
             return StatusCode((int)HttpStatusCode.InternalServerError);
-        }
+        }*/
     }
 }

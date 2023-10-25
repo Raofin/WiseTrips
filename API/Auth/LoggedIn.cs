@@ -18,7 +18,7 @@ namespace API.Auth
     {
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var token = context.HttpContext.Request.Headers["Authorization"];
+            /*var token = context.HttpContext.Request.Headers["Authorization"];
 
             if (string.IsNullOrEmpty(token))
             {
@@ -27,7 +27,7 @@ namespace API.Auth
             else if (!AuthService.TokenValidity(token))
             {
                 context.Result = new UnauthorizedObjectResult("Supplied token is invalid or expired");
-            }
+            }*/
         }
     }
 }

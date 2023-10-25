@@ -1,1 +1,1 @@
-Scaffold-DbContext "Server=.\SQLEXPRESS;Database=WiseTrips;Integrated Security=True;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir EF -Context DbContext
+Scaffold-DbContext "Server=.\SQLEXPRESS;Database=WiseTrips;Integrated Security=True;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entity -ContextDir "./" -Context WiseTripsContext -Project DAL -f

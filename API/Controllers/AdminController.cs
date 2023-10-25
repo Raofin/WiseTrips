@@ -5,13 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using AutoMapper.Configuration.Annotations;
+using DAL.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     public class AdminController : ControllerBase
     {
-        [HttpGet]
+        /*[HttpGet]
         [Route("api/admin/users")]
         public IActionResult Get()
         {
@@ -54,6 +56,6 @@ namespace API.Controllers
         {
             UserService.Update(user);
             return Ok();
-        }
+        }*/
     }
 }

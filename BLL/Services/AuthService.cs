@@ -1,20 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using BLL.DTOs;
 using DAL;
-using DAL.EF;
+using DAL.Entity;
+using DAL.Interfaces;
 
 namespace BLL.Services
 {
     public class AuthService
     {
-        public static TokenDto Authenticate(string username, string password)
+        private readonly IUserRepo _userRepo;
+        private readonly IAuthRepo _auth;
+        private readonly IToken _tokenRepo;
+
+        public AuthService(DataAccessFactory dataAccessFactory)
         {
-            var user = DataAccessFactory.AuthDataAccess().Authenticate(username, password);
+            _userRepo = dataAccessFactory.UserDataAccess();
+            _auth = dataAccessFactory.AuthDataAccess();
+            _tokenRepo = dataAccessFactory.TokenDataAccess();
+        }
+
+        public TokenDto Authenticate(string username, string password)
+        { 
+            var user = _auth.Authenticate(username, password);
 
             if (user != null)
             {
@@ -22,10 +29,10 @@ namespace BLL.Services
                     AuthToken = Guid.NewGuid().ToString(),
                     CreatedOn = DateTime.Now,
                     ExpiredOn = DateTime.Now.AddHours(1),
-                    UserId = DataAccessFactory.UserDataAccess().Get().First(u => u.Username == username).Id
+                    UserId = _userRepo.Get().First(u => u.Username == username).Id
                 };
 
-                var rt = DataAccessFactory.TokenDataAccess().Add(token);
+                var rt = _tokenRepo.Add(token);
 
                 if (rt == null) return null;
 
@@ -37,15 +44,15 @@ namespace BLL.Services
             return null;
         }
 
-        public static bool TokenValidity(string value)
+        public bool TokenValidity(string value)
         {
-            var token = DataAccessFactory.TokenDataAccess().Get(value);
+            var token = _tokenRepo.Get(value);
             return Convert.ToDateTime(token.ExpiredOn) > DateTime.Now;
         }
 
-        public static bool Logout(string token)
+        public bool Logout(string token)
         {
-            return DataAccessFactory.AuthDataAccess().Logout(token);
+            return _auth.Logout(token);
         }
     }
 }

@@ -1,18 +1,28 @@
 ﻿using AutoMapper;
 using BLL.DTOs;
-using DAL.EF;
+using DAL.Entity;
 using DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL.Interfaces;
 
 namespace BLL.Services
 {
     public class PackageService
     {
-        public static PackageDto Add(PackageDto data)
+       /* private readonly IMapper _mapper;
+        private readonly IPackageRepo _packageRepo;
+
+        public PackageService(IMapper mapper, DataAccessFactory dataAccessFactory)
+        {
+            _mapper = mapper;
+            _packageRepo = dataAccessFactory.PackageDataAccess();
+        }
+
+        public PackageDto Add(PackageDto data)
         {
             var config = new MapperConfiguration(c => {
                 c.CreateMap<PackageDto, Package>();
@@ -20,7 +30,7 @@ namespace BLL.Services
             });
             var mapper = new Mapper(config);
             var package = mapper.Map<Package>(data);
-            var ret = DataAccessFactory.PackageDataAccess().Add(package);
+            var ret = _packageRepo.Add(package);
 
             if (ret != null)
             {
@@ -29,25 +39,25 @@ namespace BLL.Services
             return null;
         }
 
-        public static List<PackageDto> Get()
+        public List<PackageDto> Get()
         {
-            var packages = DataAccessFactory.PackageDataAccess().Get();
+            var packages = _packageRepo.Get();
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Package, PackageDto>());
             var mapper = new Mapper(config);
             var data = mapper.Map<List<PackageDto>>(packages);
             return data;
         }
 
-        public static PackageDto Get(int id)
+        public PackageDto Get(int id)
         {
-            var data = DataAccessFactory.PackageDataAccess().Get(id);
+            var data = _packageRepo.Get(id);
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Package, PackageDto>());
             var mapper = new Mapper(config);
             var user = mapper.Map<PackageDto>(data);
             return user;
         }
 
-        public static void Update(PackageDto data)
+        public void Update(PackageDto data)
         {
             var config = new MapperConfiguration(c => {
                 c.CreateMap<PackageDto, Package>();
@@ -55,12 +65,12 @@ namespace BLL.Services
             });
             var mapper = new Mapper(config);
             var package = mapper.Map<Package>(data);
-            DataAccessFactory.PackageDataAccess().Update(package);
+            _packageRepo.Update(package);
         }
 
-        public static bool Delete(int id)
+        public bool Delete(int id)
         {
-            return DataAccessFactory.PackageDataAccess().Delete(id);
-        }
+            return _packageRepo.Delete(id);
+        }*/
     }
 }

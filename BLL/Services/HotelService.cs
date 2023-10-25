@@ -2,12 +2,22 @@
 using AutoMapper;
 using BLL.DTOs;
 using DAL;
-using DAL.EF;
+using DAL.Entity;
+using DAL.Interfaces;
 
 namespace BLL.Services
 {
     public class HotelService
     {
+       /* private readonly IMapper _mapper;
+        private readonly IHotelRepo _hotelRepo;
+
+        public HotelService(IMapper mapper, DataAccessFactory dataAccessFactory)
+        {
+            _mapper = mapper;
+            _hotelRepo = dataAccessFactory.HotelDataAccess();
+        }
+
         private static readonly Mapper mapper = new Mapper(
             new MapperConfiguration(c => {
                 c.CreateMap<Hotel, HotelDto>();
@@ -15,28 +25,28 @@ namespace BLL.Services
             })
         );
 
-        public static List<HotelDto> GetAll()
+        public List<HotelDto> GetAll()
         {
-            var data = DataAccessFactory.HotelDataAccess().Get();
+            var data = _hotelRepo.Get();
             return mapper.Map<List<HotelDto>>(data);
         }
 
-        public static HotelDto Get(int id)
+        public HotelDto Get(int id)
         {
-            var data = DataAccessFactory.HotelDataAccess().Get(id);
+            var data = _hotelRepo.Get(id);
             return mapper.Map<HotelDto>(data);
         }
 
-        public static bool Add(HotelDto hotelDto)
+        public bool Add(HotelDto hotelDto)
         {
             var hotel = mapper.Map<Hotel>(hotelDto);
-            return DataAccessFactory.HotelDataAccess().Add(hotel);
+            return _hotelRepo.Add(hotel);
         }
 
-        public static bool Update(HotelDto hotelDto)
+        public bool Update(HotelDto hotelDto)
         {
             var hotel = mapper.Map<Hotel>(hotelDto);
-            return DataAccessFactory.HotelDataAccess().Update(hotel);
-        }
+            return _hotelRepo.Update(hotel);
+        }*/
     }
 }

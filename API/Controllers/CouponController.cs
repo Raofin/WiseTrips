@@ -12,7 +12,7 @@ namespace API.Controllers
     [Route("api/coupons")]
     public class CouponController : ControllerBase
     {
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Get()
         {
             var data = CouponService.Get();
@@ -43,6 +43,6 @@ namespace API.Controllers
         {
             CouponService.Update(coupon);
             return Ok();
-        }
+        }*/
     }
 }

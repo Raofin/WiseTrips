@@ -3,27 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DAL.EF;
+using DAL.Entity;
 using DAL.Interfaces;
 
 namespace DAL.Repositories
 {
-    public class TripRepo : Repo, IRepo<Trip, int, bool>
+    public class TripRepo : ITripRepo
     {
+        private readonly WiseTripsContext _context;
+
+        public TripRepo(WiseTripsContext context)
+        {
+            _context = context;
+        }
+
         public List<Trip> Get()
         {
-            return db.Trips.ToList();
+            return _context.Trips.ToList();
         }
 
         public Trip Get(int id)
         {
-            return db.Trips.Find(id);
+            return _context.Trips.Find(id);
         }
 
         public bool Add(Trip obj)
         {
-            db.Trips.Add(obj);
-            return db.SaveChanges() > 0;
+            _context.Trips.Add(obj);
+            return _context.SaveChanges() > 0;
         }
 
         public bool Delete(int id)
@@ -34,8 +41,8 @@ namespace DAL.Repositories
         public bool Update(Trip obj)
         {
             var ext = Get(obj.Id);
-            db.Entry(ext).CurrentValues.SetValues(obj);
-            return db.SaveChanges() > 0;
+            _context.Entry(ext).CurrentValues.SetValues(obj);
+            return _context.SaveChanges() > 0;
         }
     }
 }

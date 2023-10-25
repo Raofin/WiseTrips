@@ -16,7 +16,7 @@ namespace API.Controllers
     /*[LoggedIn]*/
     public class PdfController : ControllerBase
     {
-        private readonly IWebHostEnvironment _hostingEnvironment;
+        /*private readonly IWebHostEnvironment _hostingEnvironment;
 
         public PdfController(IWebHostEnvironment hostingEnvironment)
         {
@@ -61,7 +61,7 @@ namespace API.Controllers
                 var webRootPath = _hostingEnvironment.WebRootPath;
                 var mapPath = Path.Combine(webRootPath, "PDF");
                 //var mapPath = HostingEnvironment.MapPath("~\\PDF\\");
-                /*var filename = System.Guid.NewGuid().ToString().Substring(0, 5);*/
+                *//*var filename = System.Guid.NewGuid().ToString().Substring(0, 5);*//*
                 var filename = UserService.Get(trip.UserId).Username + "_" + trip.Date.ToString("yyyy-MM-dd_HH-mm-ss");
                 var pdfPath = mapPath + filename + ".pdf";
                 var serverPdfPath = "https://localhost:7017/PDF/" + filename + ".pdf";
@@ -86,6 +86,6 @@ namespace API.Controllers
             {
                 // ignored
             }
-        }
+        }*/
     }
 }

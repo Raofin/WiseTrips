@@ -1,55 +1,48 @@
 ﻿using AutoMapper;
 using BLL.DTOs;
-using DAL.EF;
+using DAL.Entity;
 using DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
+using DAL.Interfaces;
 
 namespace BLL.Services
 {
     public class AgencyService
     {
-        public static AgencyDto Add(AgencyDto data)
+        private readonly IMapper _mapper;
+        private readonly IAgencyRepo _agencyRepo;
+
+        public AgencyService(IMapper mapper, DataAccessFactory dataAccessFactory)
         {
-            var config = new MapperConfiguration(c => {
-                c.CreateMap<AgencyDto, Agency>();
-                c.CreateMap<Agency, AgencyDto>();
-            });
-
-            var mapper = new Mapper(config);
-            var agency = mapper.Map<Agency>(data);
-            var ret = DataAccessFactory.AgencyDataAccess().Add(agency);
-            
-            if (ret != null)
-            {
-                return mapper.Map<AgencyDto>(data);
-            }
-
-            return null;
+            _mapper = mapper;
+            _agencyRepo = dataAccessFactory.AgencyDataAccess();
         }
 
-        public static List<AgencyDto> Get()
+        public AgencyDto Add(AgencyDto data)
         {
-            var data = DataAccessFactory.AgencyDataAccess().Get();
+            var agency = _mapper.Map<Agency>(data);
+            var ret = _agencyRepo.Add(agency);
+
+            return _mapper.Map<AgencyDto>(ret);
+        }
+
+        public List<AgencyDto> Get()
+        {
+            var data = _agencyRepo.Get();
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Agency, AgencyDto>());
             var mapper = new Mapper(config);
             return mapper.Map<List<AgencyDto>>(data);
         }
 
-        public static AgencyDto Get(int id)
+        public AgencyDto Get(int id)
         {
-            var data = DataAccessFactory.AgencyDataAccess().Get(id);
+            var data = _agencyRepo.Get(id);
             var config = new MapperConfiguration(cfg => cfg.CreateMap<Agency, AgencyDto>());
             var mapper = new Mapper(config);
             var user = mapper.Map<AgencyDto>(data);
             return user;
         }
 
-        public static void Update(AgencyDto data)
+        public void Update(AgencyDto data)
         {
             var config = new MapperConfiguration(c => {
                 c.CreateMap<AgencyDto, Agency>();
@@ -57,12 +50,12 @@ namespace BLL.Services
             });
             var mapper = new Mapper(config);
             var agency = mapper.Map<Agency>(data);
-            DataAccessFactory.AgencyDataAccess().Update(agency);
+            _agencyRepo.Update(agency);
         }
 
-        public static bool Delete(int id)
+        public bool Delete(int id)
         {
-            return DataAccessFactory.AgencyDataAccess().Delete(id);
+            return _agencyRepo.Delete(id);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DAL.EF;
+namespace API.Entity;
 
 public partial class Trip
 {

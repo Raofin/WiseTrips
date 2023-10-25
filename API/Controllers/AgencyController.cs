@@ -12,7 +12,7 @@ namespace API.Controllers
     [Route("api/agencies")]
     public class AgencyController : ControllerBase
     {
-        [HttpGet]
+        /*[HttpGet]
         public IActionResult Get()
         {
             var data = AgencyService.Get();
@@ -29,13 +29,14 @@ namespace API.Controllers
         [HttpPost("add")]
         public IActionResult Add(AgencyDto agency)
         {
-            var data = AgencyService.Add(agency);
+            *//*var data = AgencyService.Add(agency);
 
             if (data != null)
             {
                 return Ok(data);
             }
-            return StatusCode((int)HttpStatusCode.InternalServerError);
+            return StatusCode((int)HttpStatusCode.InternalServerError);*//*
+            return null;
         }
 
         [HttpPost("update/{id}")]
@@ -55,6 +56,6 @@ namespace API.Controllers
                 return Ok("deleted");
             }
             return StatusCode((int)HttpStatusCode.InternalServerError);
-        }
+        }*/
     }
 }

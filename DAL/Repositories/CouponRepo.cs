@@ -1,47 +1,47 @@
-﻿using DAL.EF;
+﻿using DAL.Entity;
 using DAL.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
-    public class CouponRepo : IRepo<Coupon, int, bool>
+    public class CouponRepo : ICouponRepo
     {
-        WiseTripsEntities db = new WiseTripsEntities();
+        private readonly WiseTripsContext _context;
+
+        public CouponRepo(WiseTripsContext context)
+        {
+            _context = context;
+        }
 
         public  bool Add(Coupon obj)
         {
-            db.Coupons.Add(obj);
-            return db.SaveChanges() > 0;
+            _context.Coupons.Add(obj);
+            return _context.SaveChanges() > 0;
         }
 
         public bool Delete(int id)
         {
-            db.Coupons.Remove(db.Coupons.Find(id));
-            return db.SaveChanges()>0;
+            _context.Coupons.Remove(_context.Coupons.Find(id));
+            return _context.SaveChanges()>0;
         }
 
         public List<Coupon> Get()
         {
-            return db.Coupons.ToList();
+            return _context.Coupons.ToList();
         }
 
         public Coupon Get(int id)
         {
-            return db.Coupons.Find(id);
+            return _context.Coupons.Find(id);
         }
 
         public bool Update(Coupon obj)
         {
             var ext = Get(obj.Id);
-            db.Entry(ext).CurrentValues.SetValues(obj);
-            return db.SaveChanges() > 0;
+            _context.Entry(ext).CurrentValues.SetValues(obj);
+            return _context.SaveChanges() > 0;
         }
 
-        bool IRepo<Coupon, int, bool>.Delete(int id)
+        bool ICrudRepo<Coupon, int, bool>.Delete(int id)
         {
             throw new NotImplementedException();
         }

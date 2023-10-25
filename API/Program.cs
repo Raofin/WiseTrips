@@ -1,8 +1,31 @@
+using API.Entity;
+using BLL;
+using BLL.Services;
+using DAL;
+using DAL.Interfaces;
+using DAL.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<WiseTripsContext>();
+
+builder.Services.AddScoped<DataAccessFactory>();
+
+builder.Services.AddTransient<IUserRepo, UserRepo>();
+builder.Services.AddTransient<IUserService, UserService>();
+
+
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles));
 
 builder.Services.AddCors(options => {
     options.AddPolicy("AllowSpecificOrigin",
@@ -11,6 +34,7 @@ builder.Services.AddCors(options => {
             .AllowAnyMethod()
             .AllowAnyHeader());
 });
+
 
 var app = builder.Build();
 

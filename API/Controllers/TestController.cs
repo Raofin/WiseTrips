@@ -10,11 +10,11 @@ namespace API.Controllers
 {
     public class TestController : ControllerBase
     {
-        [HttpGet("")]
+        /*[HttpGet("")]
         public IActionResult Test()
         {
             var data = UserService.Get();
             return Ok(data);
-        }
+        }*/
     }
 }
