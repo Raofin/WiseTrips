@@ -1,5 +1,4 @@
 # WiseTrips
-⚠️ Please note that this project has not been fully completed yet. There is still a lot of work left, especially on the frontend.
 
 WiseTrips is a travel management system that offers a seamless journey-planning process for travelers and agencies. With distinct roles for Users, Agencies, and Admins, WiseTrips caters to the unique needs of each user group. The main features of this project include:
 - The system includes three distinct user roles: Users, Agencies, and Admins.
